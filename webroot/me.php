@@ -13,7 +13,10 @@ function mdpage($filename, $leApp)
     $content = $leApp->fileContent->get($filename);
     $content = $leApp->textFilter->doFilter($content, 'shortcode, markdown');
 
-    $leApp->views->add('me/page', ['content' => $content]);
+    $byline = $leApp->fileContent->get('byline.md');
+    $byline = $leApp->textFilter->doFilter($byline, 'shortcode, markdown');
+
+    $leApp->views->add('me/page', ['content' => $content, 'byline' => $byline]);
 }
 
 $app->router->add('', function() use ($app)
