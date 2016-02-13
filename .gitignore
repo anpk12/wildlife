@@ -22,3 +22,6 @@ vendor
 # Test
 coverage
 
+# Editor swap/recovery files
+*.swp
+
