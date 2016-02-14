@@ -5,7 +5,7 @@ require __DIR__.'/config_with_app.php';
 $app->theme->configure(ANAX_APP_PATH . 'config/theme_me.php');
 //$app->theme->setVariable('title', "Me-sida: Anton");
 
-//$app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
+$app->url->setUrlType(\Anax\Url\CUrl::URL_CLEAN);
 
 
 function mdpage($filename, $leApp)
@@ -30,12 +30,6 @@ $app->router->add('redovisning', function() use ($app) {
     $app->theme->setTitle("Redovisning");
 
     mdpage('redovisning.md', $app);
-    /*$content = $app->fileContent->get('redovisning.md');
-    $content = $app->textFilter->doFilter($content, 'shortcode, markdown');
-
-    $app->views->add('me/page', ['content' => $content]);*/
-
-
 });
 
 $app->router->add('source', function() use ($app)
