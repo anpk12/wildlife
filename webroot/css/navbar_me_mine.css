@@ -1,0 +1,25 @@
+
+#navbar ul
+{
+    margin-top: 2em;
+    color: #ff0000;
+}
+
+#navbar li.selected
+{
+    color: #00ff00;
+}
+
+#navbar li a
+{
+    color: #000;
+    text-decoration: none;
+}
+
+#navbar li.selected a
+{
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+

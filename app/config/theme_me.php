@@ -70,7 +70,7 @@ return [
         'title_append' => ' | phpmvc course assignment',
 
         // Stylesheets
-        'stylesheets' => ['css/style.css', 'css/navbar.css'],
+        'stylesheets' => ['css/style_me_mine.css', 'css/navbar_me_mine.css'],
 
         // Inline style
         'style' => null,
