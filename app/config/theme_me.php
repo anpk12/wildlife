@@ -33,7 +33,7 @@ return [
             'data'     =>
             [
                 'siteTitle' => "Min me-sida byggd med Anax",
-                'siteTagline' => "En me-sida från Trondheim",
+                'siteTagline' => "En me-sida från Trøndelag",
             ], 
             'sort'     => -1
         ],
