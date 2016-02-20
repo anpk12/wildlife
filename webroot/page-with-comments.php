@@ -11,7 +11,7 @@ require __DIR__.'/config.php';
 $di  = new \Anax\DI\CDIFactoryDefault();
 
 $di->set('CommentController', function() use ($di) {
-    $controller = new Phpmvc\Comment\CommentController();
+    $controller = new Anpk12\Comment\CommentController();
     $controller->setDI($di);
     return $controller;
 });
