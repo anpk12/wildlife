@@ -38,6 +38,25 @@ class CommentsInSession implements \Anax\DI\IInjectionAware
         return $this->session->get('comments', []);
     }
 
+    public function find($commentId)
+    {
+        $comments = $this->findAll();
+        // TODO error checking :-)
+        return $comments[$commentId];
+    }
+
+    public function update($commentId, $content, $timestamp)
+    {
+        //$comment = $this->find($commentId);
+
+        $comments = $this->session->get('comments', []);
+
+        $comments[$commentId]['content'] = $content;
+        $comments[$commentId]['timestamp'] = $timestamp;
+
+        $this->session->set('comments', $comments);
+    }
+
 
 
     /**
@@ -48,5 +67,13 @@ class CommentsInSession implements \Anax\DI\IInjectionAware
     public function deleteAll()
     {
         $this->session->set('comments', []);
+    }
+
+    public function deleteSingle($commentId)
+    {
+        $comments = $this->session->get('comments', []);
+
+        unset($comments[$commentId]);
+        $this->session->set('comments', $comments);
     }
 }

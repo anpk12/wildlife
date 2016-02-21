@@ -39,7 +39,7 @@ class CommentController implements \Anax\DI\IInjectionAware
     public function addAction()
     {
         $isPosted = $this->request->getPost('doCreate');
-        
+
         if (!$isPosted) {
             $this->response->redirect($this->request->getPost('redirect'));
         }
@@ -71,7 +71,7 @@ class CommentController implements \Anax\DI\IInjectionAware
     public function removeAllAction()
     {
         $isPosted = $this->request->getPost('doRemoveAll');
-        
+
         if (!$isPosted) {
             $this->response->redirect($this->request->getPost('redirect'));
         }
@@ -83,4 +83,50 @@ class CommentController implements \Anax\DI\IInjectionAware
 
         $this->response->redirect($this->request->getPost('redirect'));
     }
+
+    public function presentEditFormAction($commentId)
+    {
+        $comments = new \Anpk12\Comment\CommentsInSession();
+        $comments->setDI($this->di);
+
+        $comment = $comments->find($commentId);
+
+        $this->views->add('comment/editform', [
+            'commentId' => $commentId,
+            'mail'      => $comment['mail'],
+            'web'       => $comment['web'],
+            'name'      => $comment['name'],
+            'content'   => $comment['content'],
+            'output'    => null
+        ]);
+    }
+
+    public function updateAction()
+    {
+        $commentId = $this->request->getPost('commentId');
+        $comments = new \Anpk12\Comment\CommentsInSession();
+        $comments->setDI($this->di);
+
+        $comments->update($commentId,
+                          $this->request->getPost('content'),
+                          time());
+        $this->response->redirect($this->request->getPost('redirect'));
+    }
+
+    public function deleteAction()
+    {
+        $commentId = $this->request->getGet('commentId');
+        echo "<h2>delete commentId: $commentId</h2>";
+        $comments = new \Anpk12\Comment\CommentsInSession();
+        $comments->setDI($this->di);
+
+        $comments->deleteSingle($commentId);
+
+        //echo "<h2>redirect: $this->request->getGet('redirect')</h2>";
+
+        $redirect = $this->request->getGet('redirect');
+        $this->response->redirect(
+            $this->url->create($redirect));
+    }
 }
+
