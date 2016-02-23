@@ -22,7 +22,7 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $all = $comments->findAll();
+        $all = $comments->findAll('flow1');
 
         $this->views->add('comment/comments', [
             'comments' => $all,
@@ -56,7 +56,7 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->add($comment);
+        $comments->add('flow1', $comment);
 
         $this->response->redirect($this->request->getPost('redirect'));
     }
@@ -79,7 +79,7 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->deleteAll();
+        $comments->deleteAll('flow1');
 
         $this->response->redirect($this->request->getPost('redirect'));
     }
@@ -89,7 +89,7 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comment = $comments->find($commentId);
+        $comment = $comments->find('flow1', $commentId);
 
         $this->views->add('comment/editform', [
             'commentId' => $commentId,
@@ -107,7 +107,8 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->update($commentId,
+        $comments->update('flow1',
+                          $commentId,
                           $this->request->getPost('content'),
                           time());
         $this->response->redirect($this->request->getPost('redirect'));
@@ -120,7 +121,7 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->deleteSingle($commentId);
+        $comments->deleteSingle('flow1', $commentId);
 
         //echo "<h2>redirect: $this->request->getGet('redirect')</h2>";
 

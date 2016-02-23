@@ -19,11 +19,12 @@ class CommentsInSession implements \Anax\DI\IInjectionAware
      * 
      * @return void
      */
-    public function add($comment)
+    public function add($flow, $comment)
     {
-        $comments = $this->session->get('comments', []);
-        $comments[] = $comment;
-        $this->session->set('comments', $comments);
+        $allComments = $this->session->get('comments', []);
+        $allComments[$flow][] = $comment;
+
+        $this->session->set('comments', $allComments);
     }
 
 
@@ -33,28 +34,37 @@ class CommentsInSession implements \Anax\DI\IInjectionAware
      *
      * @return array with all comments.
      */
-    public function findAll()
+    public function findAll($flow)
     {
-        return $this->session->get('comments', []);
+        $allComments = $this->session->get('comments', []);
+        return array_key_exists($flow, $allComments) ? $allComments[$flow] :
+                                                       [];
     }
 
-    public function find($commentId)
+    public function find($flow, $commentId)
     {
-        $comments = $this->findAll();
+        $comments = $this->findAll($flow);
         // TODO error checking :-)
         return $comments[$commentId];
     }
 
-    public function update($commentId, $content, $timestamp)
+    public function update($flow, $commentId, $content, $timestamp)
     {
         //$comment = $this->find($commentId);
 
-        $comments = $this->session->get('comments', []);
+        $allComments = $this->session->get('comments', []);
+        if ( !array_key_exists($flow, $allComments) )
+        {
+            throw new Exception("unknown comment flow: $flow");
+        }
+        $comments = $allComments[$flow];
 
         $comments[$commentId]['content'] = $content;
         $comments[$commentId]['timestamp'] = $timestamp;
 
-        $this->session->set('comments', $comments);
+        $allComments[$flow] = $comments;
+
+        $this->session->set('comments', $allComments);
     }
 
 
@@ -64,16 +74,24 @@ class CommentsInSession implements \Anax\DI\IInjectionAware
      *
      * @return void
      */
-    public function deleteAll()
+    public function deleteAll($flow)
     {
-        $this->session->set('comments', []);
+        $allComments = $this->session->get('comments', []);
+        if ( array_key_exists($flow, $allComments) )
+        {
+            unset($allComments[$flow]);
+            $this->session->set('comments', $allComments);
+        }
     }
 
-    public function deleteSingle($commentId)
+    public function deleteSingle($flow, $commentId)
     {
-        $comments = $this->session->get('comments', []);
+        $allComments = $this->session->get('comments', []);
 
-        unset($comments[$commentId]);
-        $this->session->set('comments', $comments);
+        if ( array_key_exists($flow, $allComments) )
+        {
+            unset($allComments[$flow][$commentId]);
+            $this->session->set('comments', $allComments);
+        }
     }
 }
