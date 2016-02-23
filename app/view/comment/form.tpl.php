@@ -1,6 +1,6 @@
 <div class='comment-form'>
     <form method=post>
-        <input type=hidden name="redirect" value="<?=$this->url->create('guestbook')?>">
+        <input type=hidden name="flow" value="<?=$flow?>">
         <fieldset>
         <legend>Leave a comment</legend>
         <p><label>Comment:<br/><textarea name='content'><?=$content?></textarea></label></p>

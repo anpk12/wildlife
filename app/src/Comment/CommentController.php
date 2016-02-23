@@ -17,14 +17,15 @@ class CommentController implements \Anax\DI\IInjectionAware
      *
      * @return void
      */
-    public function viewAction()
+    public function viewAction($flow)
     {
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $all = $comments->findAll('flow1');
+        $all = $comments->findAll($flow);
 
         $this->views->add('comment/comments', [
+            'flow' => $flow,
             'comments' => $all,
         ]);
     }
@@ -44,6 +45,8 @@ class CommentController implements \Anax\DI\IInjectionAware
             $this->response->redirect($this->request->getPost('redirect'));
         }
 
+        $flow = $this->request->getPost('flow');
+
         $comment = [
             'content'   => $this->request->getPost('content'),
             'name'      => $this->request->getPost('name'),
@@ -56,9 +59,9 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->add('flow1', $comment);
+        $comments->add($flow, $comment);
 
-        $this->response->redirect($this->request->getPost('redirect'));
+        $this->response->redirect($this->url->create($flow));
     }
 
 
@@ -72,26 +75,28 @@ class CommentController implements \Anax\DI\IInjectionAware
     {
         $isPosted = $this->request->getPost('doRemoveAll');
 
+        $flow = $this->request->getPost('flow');
         if (!$isPosted) {
-            $this->response->redirect($this->request->getPost('redirect'));
+            $this->response->redirect();
         }
 
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->deleteAll('flow1');
+        $comments->deleteAll($flow);
 
-        $this->response->redirect($this->request->getPost('redirect'));
+        $this->response->redirect($this->url->create($flow));
     }
 
-    public function presentEditFormAction($commentId)
+    public function presentEditFormAction($flow, $commentId)
     {
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comment = $comments->find('flow1', $commentId);
+        $comment = $comments->find($flow, $commentId);
 
         $this->views->add('comment/editform', [
+            'flow'      => $flow,
             'commentId' => $commentId,
             'mail'      => $comment['mail'],
             'web'       => $comment['web'],
@@ -107,11 +112,12 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->update('flow1',
+        $flow = $this->request->getPost('flow');
+        $comments->update($flow,
                           $commentId,
                           $this->request->getPost('content'),
                           time());
-        $this->response->redirect($this->request->getPost('redirect'));
+        $this->response->redirect($this->url->create($flow));
     }
 
     public function deleteAction()
@@ -121,11 +127,11 @@ class CommentController implements \Anax\DI\IInjectionAware
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
-        $comments->deleteSingle('flow1', $commentId);
+        $redirect = $this->request->getGet('redirect');
+        $comments->deleteSingle($redirect, $commentId);
 
         //echo "<h2>redirect: $this->request->getGet('redirect')</h2>";
 
-        $redirect = $this->request->getGet('redirect');
         $this->response->redirect(
             $this->url->create($redirect));
     }

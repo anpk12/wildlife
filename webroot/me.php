@@ -42,6 +42,42 @@ $app->router->add('redovisning', function() use ($app) {
     $app->theme->setTitle("Redovisning");
 
     mdpage('redovisning.md', $app);
+
+    $app->views->add('comment/index');
+
+    $editId = $app->request->getGet('edit', -1);
+
+    if ( $editId == -1 )
+    {
+        $app->dispatcher->forward([
+            'controller' => 'comment',
+            'action'     => 'view',
+            'params'     => ['flow' => 'redovisning']
+        ]);
+
+        $app->views->add('comment/form', [
+            'flow'      => 'redovisning',
+            'mail'      => null,
+            'web'       => null,
+            'name'      => null,
+            'content'   => null,
+            'output'    => null,
+        ]);
+    } else
+    {
+        $app->theme->setTitle("you want to edit=$editId ?");
+
+        $app->dispatcher->forward([
+            'controller' => 'comment',
+            'action'     => 'presentEditForm',
+            'params'     => ['flow' => 'redovisning', 'commentId' => $editId]
+        ]);
+        /*$app->dispatcher->forward([
+            'controller' => 'comment',
+            'action'     => 'view',
+            'params'     => ['editId' => $editId]
+        ]);*/
+    }
 });
 
 $app->router->add('source', function() use ($app)
@@ -71,9 +107,11 @@ $app->router->add('guestbook', function() use ($app)
         $app->dispatcher->forward([
             'controller' => 'comment',
             'action'     => 'view',
+            'params'     => ['flow' => 'guestbook']
         ]);
 
         $app->views->add('comment/form', [
+            'flow'      => 'guestbook',
             'mail'      => null,
             'web'       => null,
             'name'      => null,
@@ -87,7 +125,7 @@ $app->router->add('guestbook', function() use ($app)
         $app->dispatcher->forward([
             'controller' => 'comment',
             'action'     => 'presentEditForm',
-            'params'     => ['commentId' => $editId]
+            'params'     => ['flow' => 'guestbook', 'commentId' => $editId]
         ]);
         /*$app->dispatcher->forward([
             'controller' => 'comment',
