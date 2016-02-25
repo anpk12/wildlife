@@ -10,4 +10,6 @@
 <p><?=dump($comment)?></p>
 <?php endforeach; ?>
 </div>
-<?php endif; ?>
+<?php if ( !$showform ) : ?>
+<a href="<?=$this->url->create("$flow?showform=1")?>">Post a comment</a>
+<?php endif; endif; ?>

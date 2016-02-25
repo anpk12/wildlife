@@ -24,10 +24,23 @@ class CommentController implements \Anax\DI\IInjectionAware
 
         $all = $comments->findAll($flow);
 
+        $showform = $this->request->getGet('showform');
         $this->views->add('comment/comments', [
             'flow' => $flow,
             'comments' => $all,
+            'showform' => $showform
         ]);
+        if ( $showform )
+        {
+            $this->views->add('comment/form', [
+                'flow'      => $flow,
+                'mail'      => null,
+                'web'       => null,
+                'name'      => null,
+                'content'   => null,
+                'output'    => null,
+            ]);
+        }
     }
 
 

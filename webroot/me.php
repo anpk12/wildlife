@@ -54,15 +54,6 @@ $app->router->add('redovisning', function() use ($app) {
             'action'     => 'view',
             'params'     => ['flow' => 'redovisning']
         ]);
-
-        $app->views->add('comment/form', [
-            'flow'      => 'redovisning',
-            'mail'      => null,
-            'web'       => null,
-            'name'      => null,
-            'content'   => null,
-            'output'    => null,
-        ]);
     } else
     {
         $app->theme->setTitle("you want to edit=$editId ?");
@@ -108,15 +99,6 @@ $app->router->add('guestbook', function() use ($app)
             'controller' => 'comment',
             'action'     => 'view',
             'params'     => ['flow' => 'guestbook']
-        ]);
-
-        $app->views->add('comment/form', [
-            'flow'      => 'guestbook',
-            'mail'      => null,
-            'web'       => null,
-            'name'      => null,
-            'content'   => null,
-            'output'    => null,
         ]);
     } else
     {
