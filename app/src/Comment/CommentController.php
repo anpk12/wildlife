@@ -136,7 +136,7 @@ class CommentController implements \Anax\DI\IInjectionAware
     public function deleteAction()
     {
         $commentId = $this->request->getGet('commentId');
-        echo "<h2>delete commentId: $commentId</h2>";
+        //echo "<h2>delete commentId: $commentId</h2>";
         $comments = new \Anpk12\Comment\CommentsInSession();
         $comments->setDI($this->di);
 
