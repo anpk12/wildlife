@@ -75,3 +75,53 @@ Stilmässigt gick jag efter hacker-med-dålig-smak och känner att jag lyckades
 ganska bra. Jag är glad att jag kommit igång på riktigt med kursen nu och
 hoppas att jag ska kunna börja med nästa kursmoment så snart som möjligt.
 
+Kmom02: Kontroller och modeller
+--------------------------------------------------------------------------------
+Det här kursmomentet gick ganska bra. Jag var tvungen att slå upp en del
+saker i php-manualen runt arrayer i php samt lite annat,
+som date()-funktionen. Jag har även nystat upp en del av kopplingarna mellan
+de olika delarna av Anax i större utsträckning för att klara det här
+kursmomentet.
+
+Det jag hade mest problem med var nog att skicka parametrar till
+kontrollern samt att designa kontrollern och vyerna så att de blev
+enkla att använda ifrån frontkontrollern/me.php . Jag valde att redan
+i frontkontrollern avgöra om användaren ville uppdatera en kommentar
+och baserat på det välja vilken kontroller-metod jag skulle anropa med
+$app->dispatcher->forward. Problemet med det blev tydligt när jag
+skulle lägga till kommentarsfält på flera undersidor/routes. Jag blev
+tvungen att duplicera lite mer kod än jag skulle önska vilket så klart
+ökar risken för misstag. Se koden för routerna "guestbook" och "guestbook2"
+i me.php . I fortsättningen kommer jag att försöka flytta sådan logik
+till kontrollern i större utsträckning.
+
+Jag hade också en del problem med stylingen av kommentarerna då jag
+bara kan grundläggande CSS samt började lite väl sent med det momentet
+(jag var ju "så gott som klar"...). Jag blev tvungen att snabbt förstå
+hur float fungerade när jag egentligen var lite för trött. Men det ordnade
+sig. Visst, det ser kanske inte ut exakt som Stackoverflow, men jag
+är ganska nöjd. Om jag skulle jobbat vidare med det hade jag kanske
+försökt presentera metadatan lite mer diskret med ljusare färger och
+mindre textstorlek. Delete-knappen hade kunnat ha en bild av en soptunna
+istället för en länktext.
+
+Composer verkar vara bra om man ska använda en färdig modul, som när
+jag installerade phpmvc/comment. Men för utvecklingen kopierade jag
+CommentController.php och CommentsInSession.php till app/src och bytte
+namespace, eftersom jag ville versionshantera dem i samma
+git-repository som resten av uppgiften och slippa gå via Composer för att
+testa nya versioner medans jag jobbade. Jag är säker på att det finns bra
+paket i Packagist, men jag har inte sett mig omkring utöver
+användarinstruktionerna.
+
+Jag vet inte om jag har greppat terminologin helt ännu, men jag förstår
+ganska väl hur frontkontrollern, vyerna, kontrollern och modellen är
+kopplade till varandra. Jag tror jag förstår _poängen_ med mvc något
+bättre efter den här uppgiften.
+
+Jag reflekterade inte över några svagheter i phpmvc/comment förutom två
+uppenbara; kommentarerna existerar bara i sessionen samt avsaknad av
+felhantering. Jag kan inte påstå att jag gjorde någon stor ansträngning
+för att förbättra det, men jag lade in stöd för Gravatar samt döljer formuläret
+tills man klickar på en länk.
+
