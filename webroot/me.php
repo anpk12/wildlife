@@ -2,7 +2,7 @@
 //require __DIR__.'/config_with_app.php';
 require __DIR__.'/config.php';
 
-// Create services and inject into the app. 
+// Create services and inject into the app.
 $di  = new \Anax\DI\CDIFactoryDefault();
 
 $di->set('CommentController', function() use ($di)
@@ -43,8 +43,6 @@ $app->router->add('redovisning', function() use ($app) {
 
     mdpage('redovisning.md', $app);
 
-    $app->views->add('comment/index');
-
     $editId = $app->request->getGet('edit', -1);
 
     if ( $editId == -1 )
@@ -56,18 +54,12 @@ $app->router->add('redovisning', function() use ($app) {
         ]);
     } else
     {
-        $app->theme->setTitle("you want to edit=$editId ?");
-
         $app->dispatcher->forward([
             'controller' => 'comment',
             'action'     => 'presentEditForm',
-            'params'     => ['flow' => 'redovisning', 'commentId' => $editId]
+            'params'     => ['flow' => 'redovisning',
+                             'commentId' => $editId]
         ]);
-        /*$app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'view',
-            'params'     => ['editId' => $editId]
-        ]);*/
     }
 });
 
@@ -77,19 +69,17 @@ $app->router->add('source', function() use ($app)
     $app->theme->setTitle("Källkod");
 
     $source = new \Mos\Source\CSource([
-        'secure_dir' => '..', 
-        'base_dir' => '..', 
+        'secure_dir' => '..',
+        'base_dir' => '..',
         'add_ignore' => ['.htaccess'],
     ]);
 
     $app->views->add('me/source', ['content' => $source->View()]);
 });
 
-// Home route
 $app->router->add('guestbook', function() use ($app)
 {
     $app->theme->setTitle("Välkommen till anpk12:s gästbok");
-    $app->views->add('comment/index');
 
     $editId = $app->request->getGet('edit', -1);
 
@@ -102,18 +92,36 @@ $app->router->add('guestbook', function() use ($app)
         ]);
     } else
     {
-        $app->theme->setTitle("you want to edit=$editId ?");
-
         $app->dispatcher->forward([
             'controller' => 'comment',
             'action'     => 'presentEditForm',
-            'params'     => ['flow' => 'guestbook', 'commentId' => $editId]
+            'params'     => ['flow' => 'guestbook',
+                             'commentId' => $editId]
         ]);
-        /*$app->dispatcher->forward([
+    }
+});
+
+$app->router->add('guestbook2', function() use ($app)
+{
+    $app->theme->setTitle("Välkommen till anpk12:s andra gästbok");
+
+    $editId = $app->request->getGet('edit', -1);
+
+    if ( $editId == -1 )
+    {
+        $app->dispatcher->forward([
             'controller' => 'comment',
             'action'     => 'view',
-            'params'     => ['editId' => $editId]
-        ]);*/
+            'params'     => ['flow' => 'guestbook2']
+        ]);
+    } else
+    {
+        $app->dispatcher->forward([
+            'controller' => 'comment',
+            'action'     => 'presentEditForm',
+            'params'     => ['flow' => 'guestbook2',
+                             'commentId' => $editId]
+        ]);
     }
 });
 

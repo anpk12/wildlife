@@ -21,7 +21,19 @@ return [
         'assignment'  => [
             'text'  => 'Redovisning',
             'url'   => $this->di->get('url')->create('redovisning'),
-            'title' => 'Redovisning Kmom01'
+            'title' => 'Redovisning'
+        ],
+
+        'guestbook' => [
+            'text' => 'Gästbok',
+            'url' => $this->di->get('url')->create('guestbook'),
+            'title' => 'Gästbok'
+        ],
+
+        'guestbook2' => [
+            'text' => 'Gästbok 2',
+            'url' => $this->di->get('url')->create('guestbook2'),
+            'title' => 'Gästbok 2'
         ],
 
         'source'  => [
