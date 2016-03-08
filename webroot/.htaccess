@@ -10,6 +10,7 @@ ErrorDocument 404 "This is a Anax 404. Document is not here."
   #RewriteBase /change/this/to/site/base/url/if/needed/
   RewriteBase /phpmvc/Anax-MVC.git/webroot/
   #RewriteBase /~anpk12/phpmvc/kmom01/Anax-MVC/webroot/
+  #RewriteBase /~anpk12/phpmvc/kmom02/Anax-MVC/webroot/
 
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
