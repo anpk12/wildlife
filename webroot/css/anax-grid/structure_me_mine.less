@@ -1,0 +1,111 @@
+
+#wrapper {
+  margin: 0 auto;
+  /*width: 980px;*/  /* this seems weird with a max-width of 960px... */
+  padding: 10px;
+  /* TODO add grid background-image here for debugging */
+  max-width: 960px;
+}
+
+span.sitetitle
+{
+    font-size: 3em;
+}
+
+span.siteslogan
+{
+    position: absolute;
+    top: 100px;
+    left: 80px;
+    font-size: 1.5em;
+    border-top: 1px solid;
+}
+
+div#main
+{
+    width: 40em;
+    margin-left: 2.7em;
+}
+
+div#footer
+{
+    width: 40em;
+    margin-left: 2.7em;
+    border-top: 1px dashed;
+}
+
+div.comment
+{
+    width: 40em;
+    clear: both;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    min-height: 80px;
+}
+
+footer.byline p
+{
+    font-size: 0.7em;
+    border-left: 4px solid;
+}
+
+img.avatar
+{
+    float: left;
+}
+
+a.postcomment
+{
+    clear: both;
+}
+
+/* grid setup */
+
+#header,
+#navbar,
+#flash,
+#footer {
+    .column(@columns);
+    margin-bottom: 22px;
+}
+
+#main {
+    .column(@columns / 3 * 2);
+    margin-bottom: 22px;
+}
+
+#sidebar {
+    .column(@columns / 3);
+    margin-bottom: 22px;
+}
+
+#featured-1,
+#featured-2,
+#featured-3,
+#triptych-1,
+#triptych-2,
+#triptych-3 {
+    .column(@columns / 3);
+    margin-bottom: 22px;
+    background-color: green;
+}
+
+#footercol-1,
+#footercol-2,
+#footercol-3,
+#footercol-4 {
+    .column(@columns / 4);
+    margin-bottom: 22px;
+    background-color: red;
+}
+
+#wrap-featured,
+#wrap-main,
+#wrap-triptych,
+#wrap-footercol {
+    .clearfix();
+    margin-bottom: 22px;
+}
+
