@@ -13,7 +13,7 @@ $di->set('CommentController', function() use ($di)
 });
 $app = new \Anax\Kernel\CAnax($di);
 
-/* Use my me-theme */
+/* Use my grid theme */
 $app->theme->configure(ANAX_APP_PATH . 'config/theme-grid.php');
 //$app->theme->configure(ANAX_APP_PATH . 'config/theme.php');
 //$app->theme->setVariable('title', "Me-sida: Anton");
@@ -131,7 +131,7 @@ $app->router->add('regioner', function() use ($app)
     //$app->theme->setTitle("Regioner");
     //mdpage('anton.md', $app);
 
-    $app->theme->addStylesheet('css/anax-grid/regions_demo.css');
+    //$app->theme->addStylesheet('css/anax-grid/regions_demo.css');
     $app->theme->setTitle("Regioner");
 
     $app->views->addString('flash', 'flash')

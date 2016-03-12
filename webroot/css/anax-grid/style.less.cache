@@ -1,4 +1,4 @@
-a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:42783:"html {
+a:4:{s:4:"root";s:10:"style.less";s:8:"compiled";s:44357:"html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -454,8 +454,8 @@ h1 {
 }
 #wrapper {
   margin: 0 auto;
-  width: 980px;
   padding: 10px;
+  max-width: 960px;
 }
 #header {
   position: relative;
@@ -509,22 +509,22 @@ h1 {
 #footer {
   display: inline;
   float: left;
-  width: 940px;
-  margin: 0 10px;
+  width: 97.916666666667%;
+  margin: 0 1.0416666666667%;
   margin-bottom: 22px;
 }
 #main {
   display: inline;
   float: left;
-  width: 620px;
-  margin: 0 10px;
+  width: 64.583333333333%;
+  margin: 0 1.0416666666667%;
   margin-bottom: 22px;
 }
 #sidebar {
   display: inline;
   float: left;
-  width: 300px;
-  margin: 0 10px;
+  width: 31.25%;
+  margin: 0 1.0416666666667%;
   margin-bottom: 22px;
 }
 #featured-1,
@@ -535,9 +535,10 @@ h1 {
 #triptych-3 {
   display: inline;
   float: left;
-  width: 300px;
-  margin: 0 10px;
+  width: 31.25%;
+  margin: 0 1.0416666666667%;
   margin-bottom: 22px;
+  background-color: green;
 }
 #footercol-1,
 #footercol-2,
@@ -545,9 +546,10 @@ h1 {
 #footercol-4 {
   display: inline;
   float: left;
-  width: 220px;
-  margin: 0 10px;
+  width: 22.916666666667%;
+  margin: 0 1.0416666666667%;
   margin-bottom: 22px;
+  background-color: red;
 }
 #wrap-featured,
 #wrap-main,
@@ -2777,4 +2779,83 @@ figure.rounded img {
 .fa-percent:before {
   content: "\f295";
 }
-";s:5:"files";a:23:{s:66:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/style.less";i:1457807154;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/normalize.less";i:1454278130;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/variables.less";i:1457789023;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/mixins.less";i:1457789024;s:71:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/css3mixins.less";i:1457789175;s:65:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/grid.less";i:1457731073;s:71:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/typography.less";i:1457788895;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/structure.less";i:1457783961;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/navbar.less";i:1457726521;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/figure.less";i:1457726513;s:97:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1457614058;s:94:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1457807394;s:91:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1457614058;s:91:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1457614058;s:96:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1457614058;s:100:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1457614058;s:93:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1457614058;s:100:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1457614058;s:92:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1457614058;s:90:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1457614058;}s:7:"updated";i:1457807396;}
+@media (max-width: 767px) {
+  #featured-1 {
+    display: inline;
+    float: left;
+    width: 97.916666666667%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+  #featured-2,
+  #featured-3 {
+    display: none;
+  }
+  #main {
+    display: inline;
+    float: left;
+    width: 97.916666666667%;
+    margin: 0 1.0416666666667%;
+  }
+  #sidebar,
+  #triptych-1,
+  #triptych-2,
+  #triptych-3 {
+    display: none;
+  }
+  #footercol-1,
+  #footercol-2,
+  #footercol-3,
+  #footercol-4 {
+    display: inline;
+    float: left;
+    width: 97.916666666667%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+}
+@media (min-width: 768px) {
+  #featured-1,
+  #featured-2 {
+    display: inline;
+    float: left;
+    width: 47.916666666667%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+  #featured-3 {
+    display: none;
+  }
+  #footercol-1,
+  #footercol-2,
+  #footercol-3,
+  #footercol-4 {
+    display: inline;
+    float: left;
+    width: 47.916666666667%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+}
+@media (min-width: 992px) {
+  #featured-1,
+  #featured-2,
+  #featured-3 {
+    display: inline;
+    float: left;
+    width: 31.25%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+  #footercol-1,
+  #footercol-2,
+  #footercol-3,
+  #footercol-4 {
+    display: inline;
+    float: left;
+    width: 22.916666666667%;
+    margin: 0 1.0416666666667%;
+    margin-bottom: 22px;
+  }
+}
+";s:5:"files";a:24:{s:66:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/style.less";i:1457811414;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/normalize.less";i:1454278130;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/variables.less";i:1457815932;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/mixins.less";i:1457789024;s:71:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/css3mixins.less";i:1457789175;s:65:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/grid.less";i:1457816453;s:71:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/typography.less";i:1457788895;s:70:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/structure.less";i:1457816955;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/navbar.less";i:1457726521;s:67:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/figure.less";i:1457726513;s:97:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/font-awesome.less";i:1457614058;s:94:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/variables.less";i:1457807394;s:91:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/mixins.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/path.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/core.less";i:1457614058;s:91:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/larger.less";i:1457614058;s:96:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/fixed-width.less";i:1457614058;s:89:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/list.less";i:1457614058;s:100:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/bordered-pulled.less";i:1457614058;s:93:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/animated.less";i:1457614058;s:100:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/rotated-flipped.less";i:1457614058;s:92:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/stacked.less";i:1457614058;s:90:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/font-awesome-4.5.0/less/icons.less";i:1457614058;s:71:"/var/www/html/phpmvc/Anax-MVC.git/webroot/css/anax-grid/responsive.less";i:1457815656;}s:7:"updated";i:1457816985;}

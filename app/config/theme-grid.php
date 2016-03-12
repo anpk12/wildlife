@@ -21,8 +21,25 @@ return [
      * Add default views.
      */
     'views' => [
-        ['region' => 'header', 'template' => 'welcome/header', 'data' => [], 'sort' => -1],
-        ['region' => 'footer', 'template' => 'welcome/footer', 'data' => [], 'sort' => -1],
+        /*['region' => 'header', 'template' => 'welcome/header', 'data' => [], 'sort' => -1],
+        ['region' => 'footer', 'template' => 'welcome/footer', 'data' => [], 'sort' => -1],*/
+        [
+            'region'   => 'header', 
+            'template' => 'me/header', 
+            'data'     =>
+            [
+                'siteTitle' => "Min me-sida byggd med Anax",
+                'siteTagline' => "En me-sida från Trøndelag",
+            ], 
+            'sort'     => -1
+        ],
+
+        [
+            'region' => 'footer',
+            'template' => 'me/footer',
+            'data' => [],
+            'sort' => -1
+        ],
         [
             'region' => 'navbar', 
             'template' =>
@@ -46,7 +63,7 @@ return [
         'lang' => 'sv',
 
         // Append this value to each <title>
-        'title_append' => ' | Anax a web template',
+        'title_append' => ' | PHPMVC course assignment',
 
         // Stylesheets
         'stylesheets' => ['css/anax-grid/style.php'],

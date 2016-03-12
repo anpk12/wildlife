@@ -36,6 +36,12 @@ return [
             'title' => 'Gästbok 2'
         ],
 
+        'regions' => [
+            'text' => 'Regioner',
+            'url' => $this->di->get('url')->create('regioner'),
+            'title' => 'Regioner'
+        ],
+
         'source'  => [
             'text'  => 'Källkod',
             'url'   => $this->di->get('url')->create('source'),
