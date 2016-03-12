@@ -136,7 +136,7 @@ $app->router->add('regioner', function() use ($app)
 
     $app->views->addString('flash', 'flash')
                ->addString('featured-1', 'featured-1')
-               ->addString('featured-2', 'featured-2')
+               ->addString('featured-2: <i class="fa fa-camera-retro"></i> fa-camera-retro', 'featured-2')
                ->addString('featured-3', 'featured-3')
                ->addString('main', 'main')
                ->addString('sidebar', 'sidebar')
