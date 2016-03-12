@@ -15,5 +15,6 @@ ErrorDocument 404 "This is a Anax 404. Document is not here."
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
 
-  RewriteRule (.*) index.php/$1 [NC,L]
+  #RewriteRule (.*) index.php/$1 [NC,L]
+  RewriteRule (.*) theme.php/$1 [NC,L]
 </IfModule>

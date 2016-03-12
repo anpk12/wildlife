@@ -1,0 +1,143 @@
+/**
+ * General elements
+ */
+
+body {
+  color: #333;
+  font-family: arial, sans-serif;
+  overflow-y: scroll;
+}
+
+h1 {
+  font-size: 2.2em;
+}
+
+
+/**
+ * Layout of the main page elements 
+ */
+#wrapper {
+  margin: 0 auto;
+  width: 980px; 
+  padding: 10px;
+  /* TODO add grid background-image here for debugging */
+}
+
+
+/**
+ * Layout for header
+ */
+#header {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.sitetitle {
+  position: absolute;
+  top: 6px;
+  left: 130px;
+  font-size: 48px;
+}
+
+.siteslogan {
+  position: absolute;
+  top: 65px;
+  left: 130px;
+  font-style: italic;
+  color: #666;
+}
+
+
+/**
+ * Layout for main
+ */
+#main {
+  min-height: 20em;
+}
+
+
+/**
+ * Layout for footer
+ */
+#footer {
+  margin-top: 40px;
+  border-top: 1px solid #ccc;
+  padding-top: 22px;
+}
+
+.sitefooter {
+  color: #666;
+}
+
+
+/**
+ * For articles
+ */
+.article1 {
+  width: 700px;
+  border-right: 1px solid #ccc;
+  padding-right: 1em;
+}
+
+.article1 h1,
+.article1 h2 {
+  border-bottom: 1px solid #ccc;
+}
+
+.byline {
+  margin-top: 44px;
+  border-top: 1px dashed #ccc;
+  padding-top: 22px;
+  color: #666;
+}
+
+.byline p {
+  margin-top: 0;
+}
+
+/* grid setup */
+
+#header,
+#navbar,
+#flash,
+#footer {
+    .column(@columns);
+    margin-bottom: 22px;
+}
+
+#main {
+    .column(@columns / 3 * 2);
+    margin-bottom: 22px;
+}
+
+#sidebar {
+    .column(@columns / 3);
+    margin-bottom: 22px;
+}
+
+#featured-1,
+#featured-2,
+#featured-3,
+#triptych-1,
+#triptych-2,
+#triptych-3 {
+    .column(@columns / 3);
+    margin-bottom: 22px;
+}
+
+#footercol-1,
+#footercol-2,
+#footercol-3,
+#footercol-4 {
+    .column(@columns / 4);
+    margin-bottom: 22px;
+}
+
+#wrap-featured,
+#wrap-main,
+#wrap-triptych,
+#wrap-footercol {
+    .clearfix();
+    margin-bottom: 22px;
+}
+
