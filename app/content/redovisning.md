@@ -125,3 +125,51 @@ felhantering. Jag kan inte påstå att jag gjorde någon stor ansträngning
 för att förbättra det, men jag lade in stöd för Gravatar samt döljer formuläret
 tills man klickar på en länk.
 
+Kmom02: Kontroller och modeller
+--------------------------------------------------------------------------------
+
+Jag tror mig ha skapat ett tema som uppfyller de ställda kraven.
+Jag stötte på en del problem på vägen. Vid ett tillfälle blev hela
+sidan tom och ingen html skickades till webbläsaren. Jag hade glömt att
+stänga en parentes och lägga till ett semikolon i frontkontrollern.
+Jag följde guiden efter bästa förmåga och för det mesta fick jag
+önskat resultat. Jag fick de responsiva brytpunkterna att fungera med en
+gång, men jag hade problem att få regionerna till att ändra storlek
+när jag drog i webbläsaren. Då såg jag att jag hade flera definitioner
+av @total-width. Ibland tyckte jag instruktionerna var lite otydliga.
+Jag fick också problem när jag försökte återanvända CSS från tidigare
+kursmoment, då började helt plötsligt den responsiva griden uppföra
+sig felaktigt. Sidebar:en och triptych-1, 2 och 3 la sig nedanför
+main bland annat. Istället för att felsöka valde jag att återgå
+till den fungerande structure.less och navbar.less .
+
+Det ska sägas att jag inte är speciellt intresserad av design. Men
+LESS, lessphp, Semantic.gs och andra less-moduler gör det ju möjligt
+att abstrahera bort en del av detaljerna, så jag är positivt inställd
+till dem. Jag kan placera ut innehåll i responsiva rutnät utan att
+behöva fundera ut alla css-detaljer själv. Jag har väldigt begränsad
+(men inte obefintlig) erfarenhet av CSS och har mest använt det
+för enklare saker som storlek på rubriker och färger på länkar.
+Fast ett komplicerat projekt har jag gjort också; en renderare
+för utslagsturneringar i php, html och css. Den var inte speciellt
+semantiskt korrekt (mest för att jag inte kunde hitta lämpliga
+html-element för det jag ville göra) men fungerade ganska bra.
+
+Det är fint att få lära sig enkla metoder för att skapa gridbaserade
+layouts, men om jag skapar webbsidor åt mig själv kommer jag nog att
+fortsätta hålla det enkelt och fokusera på innehåll, läsbarhet och
+semantik.
+
+Normalize framstår som ett väldigt värdefullt hjälpmedel. Jag har
+inget intresse av att läsa in mig på hur olika webbläsare skiljer
+sig i sin tolkning av css, så det är fantastiskt att kunna använda
+Normalize.
+
+Bootstrap såg jag endast hastigt på och Font Awesome likaså. Men
+de verkar användbara.
+
+Jag har i huvudsak gjort som i övningen utan några större utsväningar.
+Jag lekte lite med display: none för några av regionerna när jag
+gjorde temat responsivt.
+
+
