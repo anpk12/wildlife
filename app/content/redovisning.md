@@ -125,7 +125,7 @@ felhantering. Jag kan inte påstå att jag gjorde någon stor ansträngning
 för att förbättra det, men jag lade in stöd för Gravatar samt döljer formuläret
 tills man klickar på en länk.
 
-Kmom02: Kontroller och modeller
+Kmom03: Bygg ett eget tema
 --------------------------------------------------------------------------------
 
 Jag tror mig ha skapat ett tema som uppfyller de ställda kraven.
@@ -143,6 +143,20 @@ sig felaktigt. Sidebar:en och triptych-1, 2 och 3 la sig nedanför
 main bland annat. Istället för att felsöka valde jag att återgå
 till den fungerande structure.less och navbar.less .
 
+Till sist
+fick jag även problem när jag laddade upp mitt arbete på studentservern.
+Det är ett misstag som jag upprepar i varje kursmoment; jag väntar till
+sista dagen med att ladda upp och testa mitt arbete på studentservern.
+Den här gången fick jag problem med stilmallarna. Rutnätet och övrig
+stil var som bortblåst. När jag besökte style.php med webbläsaren fick
+jag några felmeddelanden som efter en stund fick mig att tänka på
+rättigheter. Jag har tidigare noterat att style.less.cache samt style.css
+verkar genereras av webbserverprocessen. Jag testade först att göra det
+tillåtet för _alla_ användare på systemet att läsa och skriva dessa två
+filer. Det fungerade fortfarande inte, så då satte jag fulla rättigheter
+på katalogen webroot/css/anax-grid och tog bort ovan nämnda filer.
+Därefter fungerade det.
+
 Det ska sägas att jag inte är speciellt intresserad av design. Men
 LESS, lessphp, Semantic.gs och andra less-moduler gör det ju möjligt
 att abstrahera bort en del av detaljerna, så jag är positivt inställd
@@ -156,7 +170,8 @@ semantiskt korrekt (mest för att jag inte kunde hitta lämpliga
 html-element för det jag ville göra) men fungerade ganska bra.
 
 Det är fint att få lära sig enkla metoder för att skapa gridbaserade
-layouts, men om jag skapar webbsidor åt mig själv kommer jag nog att
+layouts när det behövs, men om jag skapar webbsidor åt mig själv
+kommer jag nog att
 fortsätta hålla det enkelt och fokusera på innehåll, läsbarhet och
 semantik.
 
@@ -171,5 +186,16 @@ de verkar användbara.
 Jag har i huvudsak gjort som i övningen utan några större utsväningar.
 Jag lekte lite med display: none för några av regionerna när jag
 gjorde temat responsivt.
+
+Jag har _inte_ gjort extrauppgiften, men jag har ägnat den en del tankar.
+För att uppnå ett tema som inte är anpassat för ett visst ramverk
+skulle jag försöka lägga upp det som ett bibliotek/lib. Jag skulle
+skapa funktioner för att lägga till innehåll i de olika regionerna,
+t.ex. addContent('featured-1', 'content goes here') eller
+setContent(...). Det skulle ju innebära att jag gjorde temat beroende
+av PHP, men inget speciellt PHP-ramverk eller så.
+
+Det skulle då vara väldigt likt systemet med templates och
+$app->views->addString(...) i Anax.
 
 
