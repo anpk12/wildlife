@@ -11,6 +11,15 @@ $di->set('CommentController', function() use ($di)
     $controller->setDI($di);
     return $controller;
 });
+
+$di->set('db', function()
+{
+    $db = new \Mos\Database\CDatabaseBasic();
+    $db->setOptions(require ANAX_APP_PATH . 'config/database_sqlite.php');
+    $db->connect();
+    return $db;
+});
+
 $app = new \Anax\Kernel\CAnax($di);
 
 /* Use my grid theme */
@@ -147,6 +156,12 @@ $app->router->add('regioner', function() use ($app)
                ->addString('footercol-2', 'footercol-2')
                ->addString('footercol-3', 'footercol-3')
                ->addString('footercol-4', 'footercol-4');
+});
+
+$app->router->add('setup_users', function() use ($app)
+{
+    $app->theme->setTitle('setup users');
+    $app->db->dropTableIfExists('user')->execute();
 });
 
 $app->router->handle();
