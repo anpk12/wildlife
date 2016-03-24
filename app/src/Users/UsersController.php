@@ -83,6 +83,19 @@ class UsersController implements \Anax\DI\IInjectionAware
         $url = $this->url->create('users/id/' . $id);
         $this->response->redirect($url);
     }
+
+    public function undeleteAction($id = null)
+    {
+        if ( !isset($id ) ) { die("Missing id"); }
+
+        $user = $this->users->find($id);
+
+        $user->deleted = null;
+        $user->save();
+
+        $url = $this->url->create('users/list');
+        $this->response->redirect($url);
+    }
 }
 
 ?>
