@@ -66,6 +66,23 @@ class UsersController implements \Anax\DI\IInjectionAware
         $url = $this->url->create('users/list');
         $this->response->redirect($url);
     }
+
+    public function softDeleteAction($id = null)
+    {
+        if ( !isset($id) )
+        {
+            die("Missing id");
+        }
+
+        $now = gmdate('Y-m-d H:i:s');
+        $user = $this->users->find($id);
+
+        $user->deleted = $now;
+        $user->save();
+
+        $url = $this->url->create('users/id/' . $id);
+        $this->response->redirect($url);
+    }
 }
 
 ?>
