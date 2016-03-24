@@ -162,6 +162,46 @@ $app->router->add('setup_users', function() use ($app)
 {
     $app->theme->setTitle('setup users');
     $app->db->dropTableIfExists('user')->execute();
+
+    $app->db->createTable(
+        'user',
+        [
+            'id' => ['integer',
+                     'primary key',
+                     'not null',
+                     'auto_increment'],
+            'acronym' => ['varchar(20)', 'unique', 'not null'],
+            'email' => ['varchar(80)'],
+            'name' => ['varchar(80)'],
+            'password' => ['varchar(255)'],
+            'created' => ['datetime'],
+            'updated' => ['datetime'],
+            'deleted' => ['datetime'],
+            'active' => ['datetime']
+        ]
+    )->execute();
+
+    $app->db->insert('user',
+                     ['acronym',
+                      'email',
+                      'name',
+                      'password',
+                      'created',
+                      'active']);
+    $now = gmdate('Y-m-d H:i:s');
+    $app->db->execute(['admin',
+                       'anpk12@student.bth.se',
+                       'Administrator',
+                       password_hash('admin', PASSWORD_DEFAULT),
+                       $now,
+                       $now]);
+
+    $app->db->execute(['doe',
+                       'doe@student.bth.se',
+                       'John Doe',
+                       password_hash('doe', PASSWORD_DEFAULT),
+                       $now,
+                       $now]);
 });
 
 $app->router->handle();
