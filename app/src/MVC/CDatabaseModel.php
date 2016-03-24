@@ -82,6 +82,13 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
         return $res;
     }
 
+    public function delete($id)
+    {
+        $this->db->delete($this->getDataSource(), 'id = ?');
+
+        return $this->db->execute([$id]);
+    }
+
     public function update($values)
     {
         $keys = array_keys($values);
