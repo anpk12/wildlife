@@ -22,6 +22,30 @@ class UsersController implements \Anax\DI\IInjectionAware
                            'title' => "View all users"]);
     }
 
+    public function activeAction()
+    {
+        $all = $this->users->query()
+            ->where('active IS NOT NULL')
+            ->andWhere('deleted is NULL')
+            ->execute();
+
+        $this->theme->setTitle("Active users only");
+        $this->views->add('users/list-all',
+                          ['users' => $all,
+                           'title' => "Users that are active"]);
+    }
+
+    public function deletedAction()
+    {
+        $all = $this->users->query()
+            ->where('deleted IS NOT NULL')
+            ->execute();
+        $this->theme->setTitle("Soft-deleted users only");
+        $this->views->add('users/list-all',
+                          ['users' => $all,
+                           'title' => "Deleted users"]);
+    }
+
     public function idAction($id = null)
     {
         $user = $this->users->find($id);

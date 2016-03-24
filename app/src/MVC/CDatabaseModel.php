@@ -101,6 +101,33 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
         
         return $this->db->execute($values);
     }
+
+    //////
+
+    public function query($columns = '*')
+    {
+        $this->db->select($columns)->from($this->getDataSource());
+        return $this;
+    }
+
+    public function where($condition)
+    {
+        $this->db->where($condition);
+        return $this;
+    }
+
+    public function andWhere($condition)
+    {
+        $this->db->andWhere($condition);
+        return $this;
+    }
+
+    public function execute($params = [])
+    {
+        $this->db->execute($this->db->getSQL(), $params);
+        $this->db->setFetchModeClass(__CLASS__);
+        return $this->db->fetchAll();
+    }
 }
 
 ?>
