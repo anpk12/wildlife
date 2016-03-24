@@ -5,6 +5,13 @@ require __DIR__.'/config.php';
 // Create services and inject into the app.
 $di  = new \Anax\DI\CDIFactoryDefault();
 
+$di->set('UsersController', function() use ($di)
+{
+    $controller = new Anpk12\Users\UsersController();
+    $controller->setDI($di);
+    return $controller;
+});
+
 $di->set('CommentController', function() use ($di)
 {
     $controller = new Anpk12\Comment\CommentController();
