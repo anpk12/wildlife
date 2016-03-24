@@ -23,6 +23,15 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
         return $this->db->fetchAll();
     }
 
+    public function find($id)
+    {
+        $dataSource = $this->getDataSource();
+        $this->db->select()->from($dataSource)->where("id= ?");
+
+        $this->db->execute([$id]);
+        return $this->db->fetchInto($this);
+    }
+
     // Properties associated with the db table of the model
     // TODO use "whitelisting" (even if it has to be
     // implemented multiple times in derived classes)
@@ -32,6 +41,58 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
         unset($props['di']);
         unset($props['db']);
         return $props;
+    }
+
+    public function setProperties($props)
+    {
+        if ( !empty($props) )
+        {
+            foreach ( $props as $key => $val )
+            {
+                $this->$key = $val;
+            }
+        }
+    }
+
+    public function save($values = [])
+    {
+        $this->setProperties($values);
+        $values = $this->getProperties();
+
+        if ( isset($values['id']) )
+        {
+            return $this->update($values);
+        } else
+        {
+            return $this->create($values);
+        }
+    }
+
+    public function create($values)
+    {
+        $keys = array_keys($values);
+        $values = array_values($values);
+
+        $this->db->insert($this->getDataSource(), $keys);
+
+        $res = $this->db->execute($values);
+
+        $this->id = $this->db->lastInsertId();
+
+        return $res;
+    }
+
+    public function update($values)
+    {
+        $keys = array_keys($values);
+        $values = array_values($values);
+
+        unset($keys['id']);
+        $values[] = $this->id;
+
+        $this->db->update($this->getDataSource(), $keys, "id = ?");
+        
+        return $this->db->execute($values);
     }
 }
 
