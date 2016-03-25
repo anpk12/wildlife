@@ -5,6 +5,8 @@ require __DIR__.'/config.php';
 // Create services and inject into the app.
 $di  = new \Anax\DI\CDIFactoryDefault();
 
+$di->set('form', '\Mos\HTMLForm\CForm');
+
 $di->set('UsersController', function() use ($di)
 {
     $controller = new Anpk12\Users\UsersController();
@@ -48,11 +50,20 @@ function mdpage($filename, $leApp)
     $leApp->views->add('me/page', ['content' => $content, 'byline' => $byline]);
 }
 
-$app->router->add('', function() use ($app)
+/*$app->router->add('', function() use ($app)
 {
     $app->theme->setTitle("Om mig");
 
     mdpage('anton.md', $app);
+});*/
+
+$app->router->add('', function() use ($app)
+{
+    $app->theme->setTitle("Om mig/testsida för UsersController");
+
+    mdpage('anton.md', $app);
+
+   //$app->views->add('users/controlpanel');
 });
 
 $app->router->add('redovisning', function() use ($app) {

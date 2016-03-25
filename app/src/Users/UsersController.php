@@ -12,6 +12,91 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->users->setDI($this->di);
     }
 
+    private function showAvailableActions()
+    {
+        $users = $this->users->findAll();
+        $this->di->views->add(
+            'users/index',
+            ['title' => 'Available actions in UsersController',
+             'users' => $users]);
+    }
+
+    public function indexAction()
+    {
+        $this->theme->setTitle('Available actions in UsersController');
+        $this->showAvailableActions();
+    }
+
+    public function addformAction()
+    {
+        $this->session();
+        $this->theme->setTitle("Users indexAction");
+
+        $form = $this->di->form->create([], [
+            'name' => [
+                'type'  => 'text',
+                'label' => 'Name:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'acronym' => [
+                'type'  => 'text',
+                'label' => 'Acronym:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onSuccess'], [$this, 'onFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Add a user",
+            'content' => $form->getHTML()
+        ]);
+        $this->showAvailableActions();
+    }
+
+    public function onSubmit($form)
+    {
+        $now = gmdate('Y-m-d H:i:s');
+
+        $res = $this->users->save([
+            'acronym' => $form->Value('acronym'),
+            'email ' => $form->Value('email'),
+            'name' => $form->Value('name'),
+            'password' => password_hash($form->Value('acronym'), PASSWORD_DEFAULT),
+            'created' => $now,
+            'active' => $now
+        ]);
+        // $form->saveInSession = true ??
+        
+        return $res;
+    }
+
+    public function onSuccess($form)
+    {
+        $form->AddOutput("<p>New user successfully added</p>");
+        $url = $this->url->create('users/id/' . $this->users->id);
+        $this->response->redirect($url);
+    }
+
+    public function onFail($form)
+    {
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+
     public function listAction()
     {
         $all = $this->users->findAll();
@@ -20,6 +105,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "View all users"]);
+        $this->showAvailableActions();
     }
 
     public function activeAction()
@@ -33,6 +119,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Users that are active"]);
+        $this->showAvailableActions();
     }
 
     // Show users that are inactive but not deleted
@@ -48,6 +135,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Users that are inactive"]);
+        $this->showAvailableActions();
     }
 
     public function deletedAction()
@@ -59,6 +147,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Deleted users"]);
+        $this->showAvailableActions();
     }
 
     public function idAction($id = null)
@@ -68,10 +157,10 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->theme->setTitle("View user with id");
         $this->views->add('users/view',
                           ['user' => $user]);
+        $this->showAvailableActions();
     }
 
-    /* TODO use CForm to finish assignment */
-    public function addAction($acronym = null)
+    public function addAcronymAction($acronym = null)
     {
         if (!isset($acronym))
         {
