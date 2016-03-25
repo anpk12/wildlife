@@ -35,6 +35,21 @@ class UsersController implements \Anax\DI\IInjectionAware
                            'title' => "Users that are active"]);
     }
 
+    // Show users that are inactive but not deleted
+    // (my interpretation of requirement 6).
+    public function inactiveAction()
+    {
+        $all = $this->users->query()
+            ->where('active IS NULL')
+            ->andWhere('deleted is NULL')
+            ->execute();
+
+        $this->theme->setTitle("Inactive users");
+        $this->views->add('users/list-all',
+                          ['users' => $all,
+                           'title' => "Users that are inactive"]);
+    }
+
     public function deletedAction()
     {
         $all = $this->users->query()
@@ -119,6 +134,38 @@ class UsersController implements \Anax\DI\IInjectionAware
 
         $url = $this->url->create('users/list');
         $this->response->redirect($url);
+    }
+
+    public function activateAction($id = null)
+    {
+        if ( !isset($id ) ) { die("Missing id"); }
+
+        $user = $this->users->find($id);
+
+        $user->active = gmdate('Y-m-d H:i:s');
+        $user->save();
+
+        $url = $this->url->create('users/list');
+        $this->response->redirect($url);
+    }
+
+    public function deactivateAction($id = null)
+    {
+        if ( !isset($id ) ) { die("Missing id"); }
+
+        $user = $this->users->find($id);
+
+        $user->active = null;
+        $user->save();
+
+        $url = $this->url->create('users/list');
+        $this->response->redirect($url);
+    }
+
+    public function updateAction($id = null)
+    {
+        // TODO implement
+        throw new Exception("updateAction not implemented");
     }
 }
 
