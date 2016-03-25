@@ -42,10 +42,16 @@ return [
             'title' => 'Regioner'
         ],
 
+        'users' => [
+            'text' => 'UsersController',
+            'url' => $this->di->get('url')->create('users'),
+            'title' => 'Testsida för UsersController'
+        ],
+
         'source'  => [
             'text'  => 'Källkod',
             'url'   => $this->di->get('url')->create('source'),
-            'title' => 'Källkod för Kmom01'
+            'title' => 'Källkod för kursmomentet'
         ],
     ],
 

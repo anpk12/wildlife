@@ -27,10 +27,57 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->showAvailableActions();
     }
 
-    public function addformAction()
+    public function setupAction()
+    {
+        $this->theme->setTitle('setup users');
+        $this->db->dropTableIfExists('user')->execute();
+
+        $this->db->createTable(
+            'user',
+            [
+                'id' => ['integer',
+                         'primary key',
+                         'not null',
+                         'auto_increment'],
+                'acronym' => ['varchar(20)', 'unique', 'not null'],
+                'email' => ['varchar(80)'],
+                'name' => ['varchar(80)'],
+                'password' => ['varchar(255)'],
+                'created' => ['datetime'],
+                'updated' => ['datetime'],
+                'deleted' => ['datetime'],
+                'active' => ['datetime']
+            ]
+        )->execute();
+
+        $this->db->insert('user',
+                         ['acronym',
+                          'email',
+                          'name',
+                          'password',
+                          'created',
+                          'active']);
+        $now = gmdate('Y-m-d H:i:s');
+        $this->db->execute(['admin',
+                           'anpk12@student.bth.se',
+                           'Administrator',
+                           password_hash('admin', PASSWORD_DEFAULT),
+                           $now,
+                           $now]);
+
+        $this->db->execute(['doe',
+                           'doe@student.bth.se',
+                           'John Doe',
+                           password_hash('doe', PASSWORD_DEFAULT),
+                           $now,
+                           $now]);
+        $this->showAvailableActions();
+    }
+
+    public function addAction()
     {
         $this->session();
-        $this->theme->setTitle("Users indexAction");
+        $this->theme->setTitle("Add user");
 
         $form = $this->di->form->create([], [
             'name' => [
@@ -60,7 +107,7 @@ class UsersController implements \Anax\DI\IInjectionAware
 
         $form->check([$this, 'onSuccess'], [$this, 'onFail']);
         $this->di->views->add('default/page', [
-            'title' => "Add a user",
+            'title' => "Add user",
             'content' => $form->getHTML()
         ]);
         $this->showAvailableActions();
@@ -85,8 +132,8 @@ class UsersController implements \Anax\DI\IInjectionAware
 
     public function onSuccess($form)
     {
-        $form->AddOutput("<p>New user successfully added</p>");
-        $url = $this->url->create('users/id/' . $this->users->id);
+        $form->AddOutput("<p><i>User saved</i></p>");
+        $url = $this->di->request->getCurrentUrl();
         $this->response->redirect($url);
     }
 
@@ -253,8 +300,45 @@ class UsersController implements \Anax\DI\IInjectionAware
 
     public function updateAction($id = null)
     {
-        // TODO implement
-        throw new Exception("updateAction not implemented");
+        $this->session();
+        $this->theme->setTitle("Update user");
+
+        $user = $this->users->find($id);
+        $form = $this->di->form->create([], [
+            'name' => [
+                'type'  => 'text',
+                'label' => 'Name:',
+                'value' => $user->name,
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'acronym' => [
+                'type'  => 'text',
+                'label' => 'Acronym:',
+                'value' => $user->acronym,
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'value' => $user->email,
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onSuccess'], [$this, 'onFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Update user",
+            'content' => $form->getHTML()
+        ]);
+        $this->showAvailableActions();
     }
 }
 
