@@ -100,28 +100,81 @@ class CommentController implements \Anax\DI\IInjectionAware
      *
      * @return void
      */
-    public function addAction()
+    public function addAction($flow)
     {
-        $isPosted = $this->request->getPost('doCreate');
+        $this->session();
+        $this->theme->setTitle("Add comment");
 
-        if (!$isPosted) {
-            $this->response->redirect($this->request->getPost('redirect'));
-        }
+        $form = $this->di->form->create([], [
+            'content' => [
+                'type' => 'text',
+                'label' => 'Comment:',
+                'required' => true,
+                'validation' => ['not_empty']
+            ],
+            'name' => [
+                'type'  => 'text',
+                'label' => 'Name:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'web' => [
+                'type' => 'text',
+                'label' => 'Website:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            'flow' => [
+                'type' => 'hidden',
+                'value' => $flow
+            ],
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onSubmit']
+            ],
+        ]);
 
-        $flow = $this->request->getPost('flow');
+        $form->check([$this, 'onSuccess'], [$this, 'onFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Add user",
+            'content' => $form->getHTML()
+        ]);
+    }
 
-        $comment = [
-            'content'   => $this->request->getPost('content'),
-            'name'      => $this->request->getPost('name'),
-            'web'       => $this->request->getPost('web'),
-            'mail'      => $this->request->getPost('mail'),
-            'timestamp' => time(),
-            'ip'        => $this->request->getServer('REMOTE_ADDR'),
-        ];
+    public function onSubmit($form)
+    {
+        $now = gmdate('Y-m-d H:i:s');
 
-        $this->comments->add($flow, $comment);
+        $res = $this->comments->save([
+            'content' => $form->Value('content'),
+            'email ' => $form->Value('email'),
+            'name' => $form->Value('name'),
+            'web' => $form->Value('web'),
+            'timestamp' => $now,
+            'ip' => $this->request->getServer('REMOTE_ADDR'),
+            'flow' => $form->Value('flow')
+        ]);
+        // $form->saveInSession = true ??
+        
+        return $res;
+    }
 
-        $this->response->redirect($this->url->create($flow));
+    public function onSuccess($form)
+    {
+        $form->AddOutput("<p><i>Comment saved</i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
+
+    public function onFail($form)
+    {
+
     }
 
 
@@ -160,11 +213,8 @@ class CommentController implements \Anax\DI\IInjectionAware
         ]);
     }
 
-    public function updateAction()
+    public function updateAction($flow, $commentId)
     {
-        $commentId = $this->request->getPost('commentId');
-
-        $flow = $this->request->getPost('flow');
         $this->comments->update($flow,
                           $commentId,
                           $this->request->getPost('content'),
