@@ -6,7 +6,7 @@
 
 <div class='comments'>
 <?php foreach ($comments as $comment) : ?>
-<h4><a href="<?=$this->url->create("$flow?edit=$comment->id")?>">#<?=$comment->id?></a>
+<h4><a href="<?=$this->url->create("comment/update/$flow/$comment->id") ?>" title="Edit">#<?=$comment->id?></a>
 (<a href="<?=$this->url->create("comment/delete?commentId=$comment->id&redirect=$flow")?>">delete</a>)
 <?=$comment->name?> <?=$comment->timestamp?></h4>
 
@@ -19,5 +19,5 @@
 </div>
 <div style="clear: both"></div>
 <?php if ( !$showform ) : ?>
-<a class="postcomment" href="<?=$this->url->create("$flow?showform=1")?>">Lägg till en kommentar</a>
+<a class="postcomment" href="<?=$this->url->create("comment/add/$flow")?>">Lägg till en kommentar</a>
 <?php endif; endif; ?>

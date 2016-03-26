@@ -107,7 +107,7 @@ class CommentController implements \Anax\DI\IInjectionAware
 
         $form = $this->di->form->create([], [
             'content' => [
-                'type' => 'text',
+                'type' => 'textarea',
                 'label' => 'Comment:',
                 'required' => true,
                 'validation' => ['not_empty']
@@ -142,7 +142,7 @@ class CommentController implements \Anax\DI\IInjectionAware
 
         $form->check([$this, 'onSuccess'], [$this, 'onFail']);
         $this->di->views->add('default/page', [
-            'title' => "Add user",
+            'title' => "Add comment",
             'content' => $form->getHTML()
         ]);
     }
@@ -198,28 +198,57 @@ class CommentController implements \Anax\DI\IInjectionAware
         $this->response->redirect($this->url->create($flow));
     }
 
-    public function presentEditFormAction($flow, $commentId)
-    {
-        $comment = $this->comments->find($flow, $commentId);
-
-        $this->views->add('comment/editform', [
-            'flow'      => $flow,
-            'commentId' => $commentId,
-            'mail'      => $comment['mail'],
-            'web'       => $comment['web'],
-            'name'      => $comment['name'],
-            'content'   => $comment['content'],
-            'output'    => null
-        ]);
-    }
-
     public function updateAction($flow, $commentId)
     {
-        $this->comments->update($flow,
-                          $commentId,
-                          $this->request->getPost('content'),
-                          time());
-        $this->response->redirect($this->url->create($flow));
+        $this->session();
+        $this->theme->setTitle("Update comment");
+
+        $comment = $this->comments->find($commentId);
+
+        $form = $this->di->form->create([], [
+            'content' => [
+                'type' => 'textarea',
+                'label' => 'Comment:',
+                'value' => $comment->content,
+                'required' => true,
+                'validation' => ['not_empty']
+            ],
+            'name' => [
+                'type'  => 'text',
+                'label' => 'Name:',
+                'value' => $comment->name,
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'web' => [
+                'type' => 'text',
+                'label' => 'Website:',
+                'value' => $comment->web,
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'value' => $comment->email,
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            'flow' => [
+                'type' => 'hidden',
+                'value' => $flow
+            ],
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onSuccess'], [$this, 'onFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Update comment",
+            'content' => $form->getHTML()
+        ]);
     }
 
     public function deleteAction()
