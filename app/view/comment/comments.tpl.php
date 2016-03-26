@@ -3,13 +3,18 @@
 <h2>Kommentarer</h2>
 
 <?php if (is_array($comments)) : ?>
+
 <div class='comments'>
-<?php foreach ($comments as $id => $comment) : ?>
-<h4><a href="<?=$this->url->create("$flow?edit=$id")?>">#<?=$id?></a> (<a href="<?=$this->url->create("comment/delete?commentId=$id&redirect=$flow")?>">delete</a>) <?=$comment['name']?> <?=date('Y-m-d H:i T', $comment['timestamp'])?></h4>
+<?php foreach ($comments as $comment) : ?>
+<h4><a href="<?=$this->url->create("$flow?edit=$comment->id")?>">#<?=$comment->id?></a>
+(<a href="<?=$this->url->create("comment/delete?commentId=$comment->id&redirect=$flow")?>">delete</a>)
+<?=$comment->name?> <?=$comment->timestamp?></h4>
+
 <div class="comment">
-<img class="avatar" src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($comment['mail'])))?>" />
-<?=$comment['content']?>
+<img class="avatar" src="http://www.gravatar.com/avatar/<?=md5(strtolower(trim($comment->email)))?>" />
+<?=$comment->content?>
 </div>
+
 <?php endforeach; ?>
 </div>
 <div style="clear: both"></div>

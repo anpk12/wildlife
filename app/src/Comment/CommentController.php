@@ -11,6 +11,59 @@ class CommentController implements \Anax\DI\IInjectionAware
     use \Anax\DI\TInjectable;
 
 
+    public function initialize()
+    {
+        $this->comments = new \Anpk12\Comment\Comment();
+        $this->comments->setDI($this->di);
+    }
+
+    public function setupAction()
+    {
+        $this->theme->setTitle('setup users');
+        $this->db->dropTableIfExists('comment')->execute();
+
+        $this->db->createTable(
+            'comment',
+            [
+                'id' => ['integer',
+                         'primary key',
+                         'not null',
+                         'auto_increment'],
+                'flow' => ['varchar(80)'],
+                'email' => ['varchar(80)'],
+                'name' => ['varchar(80)'],
+                'web' => ['varchar(255)'],
+                'content' => ['varchar(512)'],
+                'timestamp' => ['datetime'],
+                'ip' => ['varchar(16)'],
+            ]
+        )->execute();
+
+        $this->db->insert('comment',
+                         ['flow',
+                          'email',
+                          'name',
+                          'web',
+                          'content',
+                          'timestamp',
+                          'ip']);
+        $now = gmdate('Y-m-d H:i:s');
+        $this->db->execute(['guestbook',
+                           'example@mailyeahohyeah.se',
+                           'Administrator',
+                           'www.mailyeahohyeah.se',
+                           'stupid administrator comment content.',
+                           $now,
+                           $this->request->getServer('REMOTE_ADDR')]);
+
+        $this->db->execute(['guestbook',
+                           'example2@mailyeahohyeah.se',
+                           'Assistant',
+                           'www.mailyeahohyeah.se',
+                           'stupid assistant comment content.',
+                           $now,
+                           $this->request->getServer('REMOTE_ADDR')]);
+    }
 
     /**
      * View all comments.
@@ -19,15 +72,14 @@ class CommentController implements \Anax\DI\IInjectionAware
      */
     public function viewAction($flow)
     {
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
-
-        $all = $comments->findAll($flow);
+        $comments = $this->comments->query()
+            ->where("flow IS '$flow'")
+            ->execute();
 
         $showform = $this->request->getGet('showform');
         $this->views->add('comment/comments', [
             'flow' => $flow,
-            'comments' => $all,
+            'comments' => $comments,
             'showform' => $showform
         ]);
         if ( $showform )
@@ -42,8 +94,6 @@ class CommentController implements \Anax\DI\IInjectionAware
             ]);
         }
     }
-
-
 
     /**
      * Add a comment.
@@ -69,10 +119,7 @@ class CommentController implements \Anax\DI\IInjectionAware
             'ip'        => $this->request->getServer('REMOTE_ADDR'),
         ];
 
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
-
-        $comments->add($flow, $comment);
+        $this->comments->add($flow, $comment);
 
         $this->response->redirect($this->url->create($flow));
     }
@@ -93,20 +140,14 @@ class CommentController implements \Anax\DI\IInjectionAware
             $this->response->redirect();
         }
 
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
-
-        $comments->deleteAll($flow);
+        $this->comments->deleteAll($flow);
 
         $this->response->redirect($this->url->create($flow));
     }
 
     public function presentEditFormAction($flow, $commentId)
     {
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
-
-        $comment = $comments->find($flow, $commentId);
+        $comment = $this->comments->find($flow, $commentId);
 
         $this->views->add('comment/editform', [
             'flow'      => $flow,
@@ -122,11 +163,9 @@ class CommentController implements \Anax\DI\IInjectionAware
     public function updateAction()
     {
         $commentId = $this->request->getPost('commentId');
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
 
         $flow = $this->request->getPost('flow');
-        $comments->update($flow,
+        $this->comments->update($flow,
                           $commentId,
                           $this->request->getPost('content'),
                           time());
@@ -137,11 +176,9 @@ class CommentController implements \Anax\DI\IInjectionAware
     {
         $commentId = $this->request->getGet('commentId');
         //echo "<h2>delete commentId: $commentId</h2>";
-        $comments = new \Anpk12\Comment\CommentsInSession();
-        $comments->setDI($this->di);
 
         $redirect = $this->request->getGet('redirect');
-        $comments->deleteSingle($redirect, $commentId);
+        $this->comments->deleteSingle($redirect, $commentId);
 
         //echo "<h2>redirect: $this->request->getGet('redirect')</h2>";
 
