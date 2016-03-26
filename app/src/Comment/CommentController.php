@@ -155,9 +155,14 @@ class CommentController implements \Anax\DI\IInjectionAware
 
     public function onSuccess($form)
     {
-        $form->AddOutput("<p><i>Comment saved</i></p>");
+        $redirectUrl = $this->url->create($form->Value('flow'));
+        $form->AddOutput("<p><i><a href=\"$redirectUrl\">
+            Comment saved
+            </a></i></p>"
+        );
         $url = $this->di->request->getCurrentUrl();
         $this->response->redirect($url);
+        //$this->response->redirect($this->url->create($form->Value('flow')));
     }
 
     public function onFail($form)
