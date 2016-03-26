@@ -7,7 +7,7 @@
 <div class='comments'>
 <?php foreach ($comments as $comment) : ?>
 <h4><a href="<?=$this->url->create("comment/update/$flow/$comment->id") ?>" title="Edit">#<?=$comment->id?></a>
-(<a href="<?=$this->url->create("comment/delete?commentId=$comment->id&redirect=$flow")?>">delete</a>)
+(<a href="<?=$this->url->create("comment/delete/$flow/$comment->id")?>">delete</a>)
 <?=$comment->name?> <?=$comment->timestamp?></h4>
 
 <div class="comment">

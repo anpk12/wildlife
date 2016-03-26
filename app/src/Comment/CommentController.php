@@ -76,23 +76,11 @@ class CommentController implements \Anax\DI\IInjectionAware
             ->where("flow IS '$flow'")
             ->execute();
 
-        $showform = $this->request->getGet('showform');
         $this->views->add('comment/comments', [
             'flow' => $flow,
             'comments' => $comments,
             'showform' => $showform
         ]);
-        if ( $showform )
-        {
-            $this->views->add('comment/form', [
-                'flow'      => $flow,
-                'mail'      => null,
-                'web'       => null,
-                'name'      => null,
-                'content'   => null,
-                'output'    => null,
-            ]);
-        }
     }
 
     /**
@@ -184,18 +172,12 @@ class CommentController implements \Anax\DI\IInjectionAware
      *
      * @return void
      */
-    public function removeAllAction()
+    public function removeAllAction($flow)
     {
-        $isPosted = $this->request->getPost('doRemoveAll');
+        $this->comments->deleteFlow($flow);
+        $this->response->redirect($this->url->create("comment/view/$flow"));
 
-        $flow = $this->request->getPost('flow');
-        if (!$isPosted) {
-            $this->response->redirect();
-        }
-
-        $this->comments->deleteAll($flow);
-
-        $this->response->redirect($this->url->create($flow));
+        //$this->response->redirect($this->url->create($flow));
     }
 
     public function updateAction($flow, $commentId)
@@ -251,18 +233,11 @@ class CommentController implements \Anax\DI\IInjectionAware
         ]);
     }
 
-    public function deleteAction()
+    public function deleteAction($flow, $commentId)
     {
-        $commentId = $this->request->getGet('commentId');
-        //echo "<h2>delete commentId: $commentId</h2>";
-
-        $redirect = $this->request->getGet('redirect');
-        $this->comments->deleteSingle($redirect, $commentId);
-
-        //echo "<h2>redirect: $this->request->getGet('redirect')</h2>";
-
+        $this->comments->delete($commentId);
         $this->response->redirect(
-            $this->url->create($redirect));
+            $this->url->create($flow));
     }
 }
 
