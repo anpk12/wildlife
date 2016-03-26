@@ -71,24 +71,11 @@ $app->router->add('redovisning', function() use ($app) {
 
     mdpage('redovisning.md', $app);
 
-    $editId = $app->request->getGet('edit', -1);
-
-    if ( $editId == -1 )
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'view',
-            'params'     => ['flow' => 'redovisning']
-        ]);
-    } else
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'presentEditForm',
-            'params'     => ['flow' => 'redovisning',
-                             'commentId' => $editId]
-        ]);
-    }
+    $app->dispatcher->forward([
+        'controller' => 'comment',
+        'action'     => 'view',
+        'params'     => ['flow' => 'redovisning']
+    ]);
 });
 
 $app->router->add('source', function() use ($app)
@@ -109,48 +96,22 @@ $app->router->add('guestbook', function() use ($app)
 {
     $app->theme->setTitle("Välkommen till anpk12:s gästbok");
 
-    $editId = $app->request->getGet('edit', -1);
-
-    if ( $editId == -1 )
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'view',
-            'params'     => ['flow' => 'guestbook']
-        ]);
-    } else
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'presentEditForm',
-            'params'     => ['flow' => 'guestbook',
-                             'commentId' => $editId]
-        ]);
-    }
+    $app->dispatcher->forward([
+        'controller' => 'comment',
+        'action'     => 'view',
+        'params'     => ['flow' => 'guestbook']
+    ]);
 });
 
 $app->router->add('guestbook2', function() use ($app)
 {
     $app->theme->setTitle("Välkommen till anpk12:s andra gästbok");
 
-    $editId = $app->request->getGet('edit', -1);
-
-    if ( $editId == -1 )
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'view',
-            'params'     => ['flow' => 'guestbook2']
-        ]);
-    } else
-    {
-        $app->dispatcher->forward([
-            'controller' => 'comment',
-            'action'     => 'presentEditForm',
-            'params'     => ['flow' => 'guestbook2',
-                             'commentId' => $editId]
-        ]);
-    }
+    $app->dispatcher->forward([
+        'controller' => 'comment',
+        'action'     => 'view',
+        'params'     => ['flow' => 'guestbook2']
+    ]);
 });
 
 $app->router->add('regioner', function() use ($app)
