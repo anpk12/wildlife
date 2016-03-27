@@ -198,4 +198,87 @@ av PHP, men inget speciellt PHP-ramverk eller så.
 Det skulle då vara väldigt likt systemet med templates och
 $app->views->addString(...) i Anax.
 
+Kmom04: Databasdrivna modeller
+--------------------------------------------------------------------------------
+
+Det här kursmomentet tog en hel del tid för mig då det var
+mycket instruktioner att följa och artiklar att läsa. Men
+det mesta gick ganska smärtfritt. En sak jag hade problem med
+var composer. Jag lyckades inte använda det för att installera
+cdatabase. Men problemet hade att göra med ett annat paket
+i min composer.json (ctextfilter om jag minns rätt).
+I slutändan klonade jag ut cdatabase manuellt och installerade
+under Anax/app/src .
+
+Det tog mig också en stund att förstå att webserverprocessen behövde
+ha skrivrättigheter till _mappen_ som innehöll sqlite3-databasen.
+Jag fick det att fungera genom att sätta www-data som ägare till
+både mappen och databasen. Jag använde även verktyget sqlite3
+för att testa SQL-frågor och undersöka innehållet i tabellerna.
+
+Formulärhanteringen som visas i kursmomentet (olika sätt att integrera
+CForm i Anax) är jag ganska positiv till och jag håller med om
+att det nog är en tidssparare. Jag valde att skapa formulären
+explicit i UsersController och CommentController vilket lät mig
+uppdatera modellerna direkt i callbackmetoderna. Dock duplicerade
+jag en del kod för formulären när jag satte upp samma formulär
+för _addAction_ som för _updateAction_. Men det är nog inget som
+hindrar att man bryter ut det till en egen funktion som anropas
+från respektive action.
+
+Jag är nog inte fullständigt övertygad om förträffligheten i
+att använda cdatabse. Jag har inte studerat den noga så jag
+missar kanske något, men jag upplever det som att den försöker
+skydda mig från att behöva skriva SQL, genom att istället få
+mig att skriva saker som
+db->query()->where('id = ?')->execute(...); Det finns nog en
+poäng i att abstrahera kopplingen till databasen och hur
+man sätter upp prepared statements, så att
+jag som utvecklare inte behöver bry om jag använder sqlite
+eller MariaDB.  Men SQL-koden i sig tycker jag kanske inte
+man behöver dölja, om inte man kan göra det utan att införa
+begränsningar. De flesta utvecklare kan förmodligen SQL,
+och så som det abstraheras bort av cdatabase behöver man
+fortfarande ha förståelse för det, hävdar jag.
+
+En basklass för databasmodeller känns som en rimlig idé
+som förmodligen leder till återanvändning av kod. Jag
+ogillade den föreslagna implementationen av
+getProperties(). Jag ogillar att automatiskt ta med alla
+properties utom några specifika som jag listar (d.v.s. blacklisting)
+och är rädd att jag helt plötsligt råkar få med en property
+som inte har med databastabellen att göra. Jag är skeptisk
+till att använda klassnamnet för att härleda tabellnamnet.
+Sen undrar jag också hur man bör hantera modeller som backas
+av flera tabeller. Det tycker jag inte att kursmomentet ger
+svar på. T.ex. om jag skulle integrera kommentarssystemet
+med användarsystemet, så att bara inloggade användare kunde
+skriva kommentarer eller liknande. Då är jag osäker på om
+det är en supermodell (;)) eller flera modeller.
+
+För att uppgradera kommentarssystemet från Kmom02 till
+att lagra kommentarerna i databas skapade jag en ny
+modell som jag kallar Comment som ärver från basklassen.
+Jag rättade till några gamla synder och flyttade
+formulärhanteringen helt till CommentController med hjälp
+av CForm. Ett problem att fundera över var hur man ska
+stödja flera separata kommentarsflöden i den nya modellen.
+Jag valde att lägga till en "flow"-kolumn i databastabellen.
+Detta visade sig fungera bra. För att kunna radera alla
+kommentarer i ett visst flöde skapade jag _deleteFlow($flow)_
+i klassen Comment. Jag anser att den är lite för specifik
+för den här modellen för att förtjäna en plats i basklassen.
+Den anropas från CommentController::removeAllAction, d.v.s.
+routen comment/removeAll/:flow (jag har inte exponerat den
+via någon länk i nuläget). flow-parametern är en sträng
+som matchar namnet på routen för kommentarsflödet;
+'guestbook', 'guestbook2' eller 'redovisning'.
+Jag har lämnat verbosity-inställningen för cdatabase
+på då jag tänker att det kan vara intressant att se
+vid granskningen också.
+
+Jag har inte gjort extrauppgiften.
+
+Notera att det finns en länk i navbar:en till "UsersController".
+Det är testsidan som efterfrågas i uppgiften.
 
