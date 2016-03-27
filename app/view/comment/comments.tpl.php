@@ -18,6 +18,5 @@
 <?php endforeach; ?>
 </div>
 <div style="clear: both"></div>
-<?php if ( !$showform ) : ?>
 <a class="postcomment" href="<?=$this->url->create("comment/add/$flow")?>">Lägg till en kommentar</a>
-<?php endif; endif; ?>
+<?php endif; ?>

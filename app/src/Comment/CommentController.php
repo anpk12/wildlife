@@ -79,7 +79,6 @@ class CommentController implements \Anax\DI\IInjectionAware
         $this->views->add('comment/comments', [
             'flow' => $flow,
             'comments' => $comments,
-            'showform' => $showform
         ]);
     }
 
