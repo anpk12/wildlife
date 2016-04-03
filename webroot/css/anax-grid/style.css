@@ -439,6 +439,12 @@ article tfoot,
 .table  tfoot {
   font-style: italic;
 }
+.sysinfo_value {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 1em;
+  padding-left: 1em;
+}
 hr {
   color: #ccc;
   border-color: #ccc;

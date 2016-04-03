@@ -183,6 +183,46 @@ $app->router->add('setup_users', function() use ($app)
                        $now]);
 });
 
+$app->router->add('sysinfo', function() use ($app)
+{
+/*
+    TODO
+    /proc/diskstats
+    /proc/loadavg
+    /proc/meminfo
+    /proc/swap
+    /proc/stat
+    /proc/self (info on the process accessing /proc, i.e. httpd process)
+*/
+    
+    $sysinfo = new Anpk12\Sysinfo\Snapshot();
+
+    $wohoo = $sysinfo->loadavg(); // returns [0, 1, 2]
+    $totmem = $sysinfo->memTotal();
+    $sysReport = $sysinfo->htmlReport(false);
+
+    $app->theme->setTitle("Sysinfo");
+
+    $app->views->addString('flash', 'flash')
+               ->addString('featured-1', 'featured-1')
+               ->addString('featured-2: <i class="fa fa-camera-retro"></i> fa-camera-retro', 'featured-2')
+               ->addString('featured-3', 'featured-3')
+               ->addString($sysReport, 'main')
+               //->addString("<p>$wohoo[0], $wohoo[1], $wohoo[2]</p><p>$sysinfo->memTotal(), $sysinfo->memAvailable()</p>", 'main')
+               //->addString("<p>$wohoo[0], $wohoo[1], $wohoo[2]</p><p>Total memory: " . $totmem['value'] . ' ' . $totmem['unit'] . "</p>", 'main')
+               ->addString('sidebar', 'sidebar')
+               ->addString('triptych-1!!!', 'triptych-1')
+               ->addString('triptych-2', 'triptych-2')
+               //->addString("$wohoo[0], $wohoo[1] and yeah: $wohoo[2]", 'triptych-2')
+               ->addString('triptych-3', 'triptych-3')
+               ->addString('footercol-1', 'footercol-1')
+               ->addString('footercol-2', 'footercol-2')
+               ->addString('footercol-3', 'footercol-3')
+               ->addString('footercol-4', 'footercol-4');
+});
+
+
+
 $app->router->handle();
 $app->navbar->configure(ANAX_APP_PATH . 'config/navbar_me.php');
 //$app->navbar->configure(ANAX_APP_PATH . 'config/navbar.php');
