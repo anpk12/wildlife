@@ -48,6 +48,12 @@ return [
             'title' => 'Testsida för UsersController'
         ],
 
+        'sysinfo' => [
+            'text' => 'Sysinfo Module',
+            'url' => $this->di->get('url')->create('sysinfo'),
+            'title' => 'Testsida för anpk12/sysinfo'
+        ],
+
         'source'  => [
             'text'  => 'Källkod',
             'url'   => $this->di->get('url')->create('source'),
