@@ -282,3 +282,69 @@ Jag har inte gjort extrauppgiften.
 Notera att det finns en länk i navbar:en till "UsersController".
 Det är testsidan som efterfrågas i uppgiften.
 
+Kmom05: Bygg ut ramverket
+--------------------------------------------------------------------------------
+
+I det här kursmomentet skapade jag en modul för att
+i huvudsak läsa ut systeminformation såsom
+minnesförbrukning och belastning. Jag kallar den
+anpk12/sysinfo. Jag använde inte någon existerande
+kodbas. Modulen läser systeminformationen från /proc
+och jag hittade den informationen jag behövde genom
+manualsidan proc(5) på mitt Debian-system.
+
+Jag hade
+tänkt inkludera mer information då det finns mycket
+intressant i /proc . T.ex. mer ingående information
+om specifikt httpd-processens resursanvändning. Men
+jag insåg att det var bättre att lägga ribban lågt
+och frigöra tid till composer/packagist/github-delen
+av uppgiften då jag ändå förstod det som det viktiga.
+
+Från början tänkte jag skapa någon form av status-sida
+som skulle kunna pinga samt eventuellt kolla vilka
+tjänster som körde på andra servrar/domäner genom att
+ansluta till olika portar. Men jag skrotade den idén
+när jag insåg att jag hellre skulle gjort någon form
+av server-browser för multiplayerspel, och det hade
+nog blivit ett för stort projekt. Speciellt när jag
+inte hade någon tydlig idé om _vilket_ spel jag skulle
+fokusera på.
+
+Jag hämtade inspiration till min modul från verktygen
+free, uptime, top etc.
+
+Utvecklingen gick fint och jag fick möjlighet att öva
+lite på regex i php. Jag slår upp mycket information
+i php:s manual. Integrationen av min modul tycker
+jag kan beskrivas som enkel, speciellt om man
+använder funktionen htmlReport() för att generera
+färdig html. Jag utvecklade först modulen som en del
+av Anax-MVC, under app/src-katalogen. Det är
+fortfarande så jag visar den på min me-sida.
+
+Publiceringen på Packagist gick smärtfritt. Det enda
+som förvirrade mig ett ögonblick var när jag satte
+upp service-hooken i Github, eftersom Packagist
+fortfarande listade min modul som "not auto-updated".
+Men då testade jag bara att göra en commit och det
+fick Packagist att ta bort varningen om
+auto-uppdatering. Förmodligen för att det var först
+då Packagist fick någon notifiering från Github.
+
+Att skriva dokumentationen och testa att modulen
+fungerade gick bra. Jag klonade ut Anax-MVC på nytt
+och beskrev alla steg jag gjorde (förhoppningsvis)
+för att integrera anpk12/sysinfo, precis som
+rekommenderat i den tillhörande övningen på dbwebb.
+Dokumentationen som jag skapade placerade jag i
+modulens egna README-fil,
+https://github.com/anpk12/sysinfo/blob/master/README.
+
+Vad jag kan se finns det ingen extrauppgift i det
+här kursmomentet, så nej, jag har inte gjort någon.
+
+Generellt tyckte jag det här kursmomentet var lite
+roligare då man slapp följa en guide som en robot
+och fick möjlighet att tänka mer fritt (samt välja
+vilken modul man skulle göra).
