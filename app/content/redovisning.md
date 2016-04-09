@@ -320,8 +320,9 @@ i php:s manual. Integrationen av min modul tycker
 jag kan beskrivas som enkel, speciellt om man
 använder funktionen htmlReport() för att generera
 färdig html. Jag utvecklade först modulen som en del
-av Anax-MVC, under app/src-katalogen. Det är
-fortfarande så jag visar den på min me-sida.
+av Anax-MVC, under app/src-katalogen. Sedan flyttade
+jag den till ett eget repo som jag publicerade på
+Github.
 
 Publiceringen på Packagist gick smärtfritt. Det enda
 som förvirrade mig ett ögonblick var när jag satte
