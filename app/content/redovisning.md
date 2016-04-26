@@ -349,3 +349,67 @@ Generellt tyckte jag det här kursmomentet var lite
 roligare då man slapp följa en guide som en robot
 och fick möjlighet att tänka mer fritt (samt välja
 vilken modul man skulle göra).
+
+Kmom06: Verktyg och CI
+--------------------------------------------------------------------------------
+
+Det här kursmomentet tyckte jag om. Intressanta
+och inspirerande läsanvisningar.
+
+Jag jobbade som utvecklare (med i huvudsak språket C)
+på ett ställe för 4 år sedan. Där använde vi oss
+flitigt av automatiserade unit tests. Testramverken
+var utvecklade in-house tillsammans med många andra
+verktyg som vi använde rutinmässigt. När vi började
+koppla samman vår C-kod med Java i ett senare skede
+började vi även använda JUnit. Vi använde oss också
+så småningom av Hudson och senare Jenkins för
+continous integration. Code coverage tror jag inte
+att vi arbetade med systematiskt. En uppgift ansågs
+inte färdig förrän det fanns tester som gick igenom
+samt att någon eller några granskat koden och
+godkänt den.
+
+Det gick bra att skriva testfall med PHPUnit. Ett
+problem som jag hade var att min modul, Anpk12\Sysinfo,
+läste från en extern datakälla, /proc. Resultatet
+_förväntas_ vara olika varje gång. Inledningsvis
+tänkte jag att det kanske var tillräckligt att bara
+skriva tester som såg till att det inte kraschade,
+men jag tänkte om. För att kunna testa det ordentligt
+gjorde jag en ändring i modulen så att man kan säga
+åt den att läsa systeminfo från valfri nod i
+filsystemet. Därmed kunde jag skapa en statisk
+instans av /proc att använda i mina tester. Jag
+skapade då test/Sysinfo/fakeproc/{loadavg,meminfo}.
+Därefter kunde jag skriva tester som förväntade sig
+exakta värden för exempelvis minnesförbrukning.
+
+Att integrera med Travis gick utmärkt, jag tror
+att mitt allra första bygge där gick igenom. Det
+kanske inte var så förvånande då jag kört testerna
+lokalt tidigare och läst i förväg hur jag skulle
+sätta upp .travis.yml .
+
+Även Scrutinizer gick bra. Uppnådde 100% code
+coverage, men så är min modul ganska liten också.
+Mitt enda problem var det där märket/badgen om
+code coverage som uppgiften krävde. Av någon
+anledning stod det "unknown" under lång tid trots
+att allt verkade ha gått bra och vara rätt. Jag
+läste flera gånger i manualen och kollade igenom
+inställningarna. Dagen efter hade det uppdaterats.
+
+Jag är mycket positiv till att använda den här
+typen av hjälpmedel och metoder som ett sätt att
+försöka uppnå högre kvalitet. Jag tror det är
+väl investerad tid, och webbtjänsterna Travis
+och Scrutinizer gör det väldigt enkelt att komma
+igång (kontra att installera, konfigurera och
+kanske i viss mån scripta/programmera en egen
+miljö för automatiska tester). Jag jobbar som
+regel med C eller C++ men det såg inte ut att
+vara något hinder för dessa webbtjänster.
+
+Jag har inte gjort extrauppgiften.
+
