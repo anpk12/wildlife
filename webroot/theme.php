@@ -59,11 +59,42 @@ function mdpage($filename, $leApp)
 
 $app->router->add('', function() use ($app)
 {
-    $app->theme->setTitle("Om mig/testsida för UsersController");
+    $app->theme->setTitle("Infinite Recursion");
 
-    mdpage('anton.md', $app);
+    //mdpage('anton.md', $app);
 
    //$app->views->add('users/controlpanel');
+
+    $app->views->add('me/page',
+                       ['content' => "<h2>Recent questions</h2><h2>Popular tags</h2><h2>Most active users</h2>", 'byline' => "my byline"]);
+});
+
+$app->router->add('questions', function () use ($app)
+{
+    $app->theme->setTitle("Questions");
+    $app->views->add('me/page',
+                       ['content' => "<h2>Questions</h2>", 'byline' => "my byline"]);
+});
+
+$app->router->add('tags', function () use ($app)
+{
+    $app->theme->setTitle("Tags");
+    $app->views->add('me/page',
+                       ['content' => "<h2>Tags</h2>", 'byline' => "my byline"]);
+});
+
+$app->router->add('users', function () use ($app)
+{
+    $app->theme->setTitle("Users");
+    $app->views->add('me/page',
+                       ['content' => "<h2>Users</h2>", 'byline' => "my byline"]);
+});
+
+$app->router->add('about', function () use ($app)
+{
+    $app->theme->setTitle("About this website, and me");
+    $app->views->add('me/page',
+                       ['content' => "<h2>About this website</h2>", 'byline' => "my byline"]);
 });
 
 $app->router->add('redovisning', function() use ($app) {
@@ -224,7 +255,8 @@ $app->router->add('sysinfo', function() use ($app)
 
 
 $app->router->handle();
-$app->navbar->configure(ANAX_APP_PATH . 'config/navbar_me.php');
+//$app->navbar->configure(ANAX_APP_PATH . 'config/navbar_me.php');
+$app->navbar->configure(ANAX_APP_PATH . 'config/navbar_so.php');
 //$app->navbar->configure(ANAX_APP_PATH . 'config/navbar.php');
 $app->theme->render();
 
