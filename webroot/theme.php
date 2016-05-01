@@ -61,12 +61,19 @@ $app->router->add('', function() use ($app)
 {
     $app->theme->setTitle("Infinite Recursion");
 
-    //mdpage('anton.md', $app);
-
-   //$app->views->add('users/controlpanel');
-
-    $app->views->add('me/page',
-                       ['content' => "<h2>Recent questions</h2><h2>Popular tags</h2><h2>Most active users</h2>", 'byline' => "my byline"]);
+    $app->views->addString('flash', 'flash')
+               ->addString('featured-1', 'featured-1')
+               ->addString('featured-2: <i class="fa fa-camera-retro"></i> fa-camera-retro', 'featured-2')
+               ->addString('featured-3', 'featured-3')
+               ->addString('<h2>Recent questions</h2><h2>Popular tags</h2><h2>Most active users</h2>', 'main')
+               ->addString('sidebar', 'sidebar')
+               ->addString('triptych-1', 'triptych-1')
+               ->addString('triptych-2', 'triptych-2')
+               ->addString('triptych-3', 'triptych-3')
+               ->addString('footercol-1', 'footercol-1')
+               ->addString('footercol-2', 'footercol-2')
+               ->addString('footercol-3', 'footercol-3')
+               ->addString('footercol-4', 'footercol-4');
 });
 
 $app->router->add('questions', function () use ($app)
@@ -147,8 +154,6 @@ $app->router->add('guestbook2', function() use ($app)
 
 $app->router->add('regioner', function() use ($app)
 {
-    //$app->theme->setTitle("Regioner");
-    //mdpage('anton.md', $app);
 
     //$app->theme->addStylesheet('css/anax-grid/regions_demo.css');
     $app->theme->setTitle("Regioner");
@@ -216,16 +221,6 @@ $app->router->add('setup_users', function() use ($app)
 
 $app->router->add('sysinfo', function() use ($app)
 {
-/*
-    TODO
-    /proc/diskstats
-    /proc/loadavg
-    /proc/meminfo
-    /proc/swap
-    /proc/stat
-    /proc/self (info on the process accessing /proc, i.e. httpd process)
-*/
-    
     $sysinfo = new Anpk12\Sysinfo\Snapshot();
 
     $wohoo = $sysinfo->loadavg(); // returns [0, 1, 2]
@@ -255,9 +250,7 @@ $app->router->add('sysinfo', function() use ($app)
 
 
 $app->router->handle();
-//$app->navbar->configure(ANAX_APP_PATH . 'config/navbar_me.php');
 $app->navbar->configure(ANAX_APP_PATH . 'config/navbar_so.php');
-//$app->navbar->configure(ANAX_APP_PATH . 'config/navbar.php');
 $app->theme->render();
 
 ?>

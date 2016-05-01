@@ -74,6 +74,50 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->showAvailableActions();
     }
 
+    public function signupAction()
+    {
+        $this->session();
+        $this->theme->setTitle("Add user");
+
+        $form = $this->di->form->create([], [
+            'name' => [
+                'type'  => 'text',
+                'label' => 'Name:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'acronym' => [
+                'type'  => 'text',
+                'label' => 'Acronym:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            'pw' => [
+                'type' => 'password',
+                'label' => 'Password:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onSuccess'], [$this, 'onFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Add user",
+            'content' => $form->getHTML()
+        ]);
+    }
+
     public function addAction()
     {
         $this->session();
@@ -121,7 +165,7 @@ class UsersController implements \Anax\DI\IInjectionAware
             'acronym' => $form->Value('acronym'),
             'email ' => $form->Value('email'),
             'name' => $form->Value('name'),
-            'password' => password_hash($form->Value('acronym'), PASSWORD_DEFAULT),
+            'password' => password_hash($form->Value('pw'), PASSWORD_DEFAULT),
             'created' => $now,
             'active' => $now
         ]);
@@ -339,6 +383,75 @@ class UsersController implements \Anax\DI\IInjectionAware
             'content' => $form->getHTML()
         ]);
         $this->showAvailableActions();
+    }
+
+    public function loginAction()
+    {
+        $this->session();
+        $this->theme->setTitle("Log in");
+
+        $form = $this->di->form->create([], [
+            'email' => [
+                'type'  => 'text',
+                'label' => 'Email:',
+                'required' => true,
+                'validation' => ['not_empty', 'email_adress'],
+            ],
+            'pw' => [
+                'type'  => 'password',
+                'label' => 'Password:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            
+            'submit' => [
+                'type' => 'submit',
+                'callback' => [$this, 'onSubmitLogin']
+            ],
+        ]);
+
+        $form->check([$this, 'onLoginSuccess'], [$this, 'onLoginFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Log in",
+            'content' => $form->getHTML()
+        ]);
+        $this->showAvailableActions();
+    }
+
+    public function onSubmitLogin($form)
+    {
+        $now = gmdate('Y-m-d H:i:s');
+
+        $all = $this->users->query()
+            ->where('email is "' . $form->Value('email') . '"')
+            ->andWhere('deleted is NULL')
+            ->andWhere('active is not NULL')
+            ->execute();
+
+        if ( count($all) == 1 )
+        {
+            $this->loggedInUser = $all[0];
+            return password_verify($form->Value('pw'), $all[0]->password);
+        }
+        return false;
+    }
+
+    public function onLoginSuccess($form)
+    {
+        // These two lines should perhaps be in the model User...
+        $this->session->set('login_id', $this->loggedInUser->id);
+        $this->session->set('login_acronym', $this->loggedInUser->acronym);
+
+        $form->AddOutput("<p><i>Successfully logged in " . $this->loggedInUser->acronym . "</i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
+
+    public function onLoginFail($form)
+    {
+        $form->AddOutput("<p><i>Failed to log in</i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
     }
 }
 
