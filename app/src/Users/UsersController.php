@@ -348,6 +348,14 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->theme->setTitle("Update user");
 
         $user = $this->users->find($id);
+        $luser = $this->getLoggedInUserAction();
+        if ( $luser == null || $luser[0] != $user->id )
+        {
+            $url = $this->url->create('users/id/' . $id);
+            $this->response->redirect($url);
+            return;
+        }
+
         $form = $this->di->form->create([], [
             'name' => [
                 'type'  => 'text',
@@ -380,7 +388,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $form->check([$this, 'onSuccess'], [$this, 'onFail']);
         $this->di->views->add('default/page', [
             'title' => "Update user",
-            'content' => $form->getHTML()
+            'content' => $form->getHTML() . '<img class="avatar" src="http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '" />'
         ]);
         $this->showAvailableActions();
     }
@@ -459,7 +467,7 @@ class UsersController implements \Anax\DI\IInjectionAware
         $id = $this->session->get('login_id', null);
         if ( $id == null )
         {
-            return [null, null];
+            return null;
         }
         $acronym = $this->session->get('login_acronym', null);
         return [$id, $acronym];
