@@ -453,6 +453,17 @@ class UsersController implements \Anax\DI\IInjectionAware
         $url = $this->di->request->getCurrentUrl();
         $this->response->redirect($url);
     }
+
+    public function getLoggedInUserAction()
+    {
+        $id = $this->session->get('login_id', null);
+        if ( $id == null )
+        {
+            return [null, null];
+        }
+        $acronym = $this->session->get('login_acronym', null);
+        return [$id, $acronym];
+    }
 }
 
 ?>
