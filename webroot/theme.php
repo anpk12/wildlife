@@ -21,6 +21,20 @@ $di->set('CommentController', function() use ($di)
     return $controller;
 });
 
+$di->set('QuestionsController', function() use ($di)
+{
+    $controller = new Anpk12\Questions\QuestionsController();
+    $controller->setDI($di);
+    return $controller;
+});
+
+$di->set('AnswersController', function() use ($di)
+{
+    $controller = new Anpk12\Questions\AnswersController();
+    $controller->setDI($di);
+    return $controller;
+});
+
 $di->set('db', function()
 {
     $db = new \Mos\Database\CDatabaseBasic();

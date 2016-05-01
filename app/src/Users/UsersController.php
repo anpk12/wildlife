@@ -472,6 +472,12 @@ class UsersController implements \Anax\DI\IInjectionAware
         $acronym = $this->session->get('login_acronym', null);
         return [$id, $acronym];
     }
+
+    public function getUserAction($id)
+    {
+        $user = $this->users->find($id);
+        return $user;
+    }
 }
 
 ?>
