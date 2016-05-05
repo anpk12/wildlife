@@ -93,5 +93,54 @@ class TagsController implements \Anax\DI\IInjectionAware
 
         return $tags;
     }
+
+    public function addAssocsAction($questionId, $tagNames)
+    {
+        // TODO perhaps verify logged in user "owns" the question
+        // or has otherwise sufficient permissions to add tags..
+
+        $tagmap = $this->getTagIds($tagNames);
+
+        foreach ( $tagmap as $tagname => $tagid )
+        {
+            $res = $this->assocs->save([
+                'questionid' => $questionId,
+                'tagid' => $tagid
+            ]);
+            if ( $res == false )
+                throw new Exception('Failed to associate q ' . $questionId
+                    . ' with tag ' . $tagid . "($tagname)");
+        }
+        return true;
+    }
+
+    private function getTagIds($tagNames)
+    {
+        $tagmap = [];
+        foreach ( $tagNames as $tagname )
+        {
+            $res = $this->tags->query()
+                ->where("name is '$tagname'")
+                ->execute();
+            if ( count($res) == 1 )
+                $tagmap[$tagname] = $res[0]->id;
+            else
+            {
+                $res = $this->tags->save([
+                    'name' => $tagname,
+                    'description' => 'Undescribed',
+                ]);
+                if ( $res == true )
+                {
+                    $tagmap[$tagname] = $this->tags->id;
+                } else
+                {
+                    throw new Exception(
+                        'Failed to insert a tag in db (omg)');
+                }
+            }
+        }
+        return $tagmap;
+    }
 }
 

@@ -117,5 +117,106 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                            'answers' => $answers,
                            'title' => $q->topic]);
     }
+
+    public function askAction()
+    {
+        $this->session();
+        $this->theme->setTitle("Ask a question");
+
+        $user = $this->di->dispatcher->forward([
+            'controller' => 'users',
+            'action'     => 'getLoggedInUser',
+            'params'     => []
+        ]);
+        if ( $user == null )
+        {
+            $loginurl = $this->url->create('users/login');
+            $this->response->redirect($loginurl);
+            return;
+        }
+
+        $form = $this->di->form->create([], [
+            'topic' => [
+                'type'  => 'text',
+                'label' => 'Topic:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'question' => [
+                'type'  => 'text',
+                'label' => 'Question:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'tags' => [
+                'type'  => 'text',
+                'label' => 'Tags:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            
+            'submit' => [
+                'type' => 'submit',
+                'callback' => [$this, 'onAskSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onAskSuccess'], [$this, 'onAskFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Ask your question",
+            'content' => $form->getHTML()
+        ]);
+    }
+
+    public function onAskSubmit($form)
+    {
+        $user = $this->di->dispatcher->forward([
+            'controller' => 'users',
+            'action'     => 'getLoggedInUser',
+            'params'     => []
+        ]);
+        if ( $user == null )
+        {
+            return false;
+        }
+        $now = gmdate('Y-m-d H:i:s');
+        $res = $this->questions->save([
+            'topic' => $form->Value('topic'),
+            'text ' => $form->Value('question'),
+            'userid' => $user[0],
+            'points' => 0,
+            'created' => $now,
+            'updated' => $now
+        ]);
+        if ( $res == false )
+        {
+            return false;
+        }
+
+        $tagnames = explode(' ', $form->Value('tags'));
+        $res = $this->di->dispatcher->forward([
+            'controller' => 'tags',
+            'action'     => 'addAssocs',
+            'params'     => [
+                'questionId' => $this->questions->id,
+                'tagNames' => $tagnames
+            ]
+        ]);
+        
+        return $res;
+    }
+
+    public function onAskSuccess($form)
+    {
+        $url = $this->url->create('questions/view/' . $this->questions->id);
+        $this->response->redirect($url);
+    }
+
+    public function onAskFail($form)
+    {
+        $form->AddOutput("<p><i>Question not registered</i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
 }
 
