@@ -45,6 +45,10 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
 
     public function setProperties($props)
     {
+        if ( isset($this->id) )
+        {
+            unset($this->id);
+        }
         if ( !empty($props) )
         {
             foreach ( $props as $key => $val )
