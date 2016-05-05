@@ -75,5 +75,38 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                           ['questions' => $questions,
                            'title' => 'Questions']);
     }
+
+    public function viewAction($id)
+    {
+        $q = $this->questions->find($id);
+        $answers = $this->dispatcher->forward([
+            'controller' => 'answers',
+            'action' => 'getAnswersForQuestion',
+            'params' => ['questionId' => $id]
+        ]);
+
+        $asker = $this->dispatcher->forward([
+            'controller' => 'users',
+            'action'     => 'getUser',
+            'params'     => ['id' => $q->userid]
+        ]);
+        $q->userAcronym = $asker->acronym;
+
+        foreach ( $answers as $a )
+        {
+            $answerer = $this->dispatcher->forward([
+                'controller' => 'users',
+                'action'     => 'getUser',
+                'params'     => ['id' => $a->userid]
+            ]);
+            $a->userAcronym = $answerer->acronym;
+        }
+
+        $this->theme->setTitle($q->topic);
+        $this->views->add('questions/view',
+                          ['question' => $q,
+                           'answers' => $answers,
+                           'title' => $q->topic]);
+    }
 }
 

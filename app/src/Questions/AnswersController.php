@@ -54,5 +54,13 @@ class AnswersController implements \Anax\DI\IInjectionAware
                            $now,
                            $now]);
     }
+
+    public function getAnswersForQuestionAction($questionId)
+    {
+        $answers = $this->answers->query()
+            ->where('questionid is ' . $questionId)
+            ->execute();
+        return $answers;
+    }
 }
 
