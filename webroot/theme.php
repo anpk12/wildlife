@@ -35,6 +35,13 @@ $di->set('AnswersController', function() use ($di)
     return $controller;
 });
 
+$di->set('TagsController', function() use ($di)
+{
+    $controller = new Anpk12\Questions\TagsController();
+    $controller->setDI($di);
+    return $controller;
+});
+
 $di->set('db', function()
 {
     $db = new \Mos\Database\CDatabaseBasic();

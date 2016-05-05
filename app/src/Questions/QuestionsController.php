@@ -92,6 +92,13 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         ]);
         $q->userAcronym = $asker->acronym;
 
+        $tags = $this->dispatcher->forward([
+            'controller' => 'tags',
+            'action'     => 'getTagsForQuestion',
+            'params'     => ['questionId' => $id]
+        ]);
+        $q->tags = $tags;
+
         foreach ( $answers as $a )
         {
             $answerer = $this->dispatcher->forward([
@@ -101,6 +108,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
             ]);
             $a->userAcronym = $answerer->acronym;
         }
+
+        // TODO pass tags on to the view.. perhaps as part of '$q'
 
         $this->theme->setTitle($q->topic);
         $this->views->add('questions/view',

@@ -9,6 +9,13 @@
 <tr>
 <td><?=$question->text?></td>
 </tr>
+<tr>
+<td>
+<?php foreach ($question->tags as $tag) : ?>
+<?=$tag->name?>, 
+<?php endforeach; ?>
+</td>
+</tr>
 <?php foreach ($answers as $a) : ?>
 
 <tr>
