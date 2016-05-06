@@ -246,6 +246,31 @@ class Comment2Controller implements \Anax\DI\IInjectionAware
         $comments = $this->comments->query()
             ->where("questionid IS '$questionId'")
             ->execute();
+
+        // Also get users
+        $this->UsersController->initialize();
+        foreach ( $comments as $comment )
+        {
+            $comment->user =
+                $this->UsersController->getUser($comment->userid);
+        }
+        return $comments;
+    }
+
+    public function getAnswerComments($answerId)
+    {
+        $comments = $this->comments->query()
+            ->where("answerid IS '$answerId'")
+            ->execute();
+
+        // Also get users
+        $this->UsersController->initialize();
+        foreach ( $comments as $comment )
+        {
+            $comment->user =
+                $this->UsersController->getUser($comment->userid);
+        }
+
         return $comments;
     }
 }

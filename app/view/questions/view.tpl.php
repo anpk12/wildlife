@@ -19,7 +19,7 @@
 <?php foreach ($question->comments as $qc) : ?>
 <tr>
 <td>
-    <p><?=$qc->content?></p>
+    <p><?=$qc->content?> by <?=$qc->user->acronym?></p>
 </td>
 </tr>
 <?php endforeach; ?>
@@ -32,6 +32,13 @@
 <td><?=$a->userAcronym?></td>
 <td><?=$a->created?></td>
 </tr>
+<?php foreach ($a->comments as $ac) : ?>
+<tr>
+<td>
+    <p><?=$ac->content?> by <?=$ac->user->acronym?></p>
+</td>
+</tr>
+<?php endforeach; ?>
 
 <?php endforeach; ?>
 </table>

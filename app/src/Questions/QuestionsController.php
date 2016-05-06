@@ -122,6 +122,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                 'params'     => ['id' => $a->userid]
             ]);
             $a->userAcronym = $answerer->acronym;
+
+            $a->comments =
+                $this->Comment2Controller->getAnswerComments($a->id);
         }
 
         $this->theme->setTitle($q->topic);

@@ -473,7 +473,14 @@ class UsersController implements \Anax\DI\IInjectionAware
         return [$id, $acronym];
     }
 
+    // TODO remove (see getUser() below)
     public function getUserAction($id)
+    {
+        $user = $this->users->find($id);
+        return $user;
+    }
+
+    public function getUser($id)
     {
         $user = $this->users->find($id);
         return $user;
