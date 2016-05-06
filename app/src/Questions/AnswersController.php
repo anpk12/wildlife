@@ -62,5 +62,20 @@ class AnswersController implements \Anax\DI\IInjectionAware
             ->execute();
         return $answers;
     }
+
+    public function addAnswer($questionId, $answertext, $userId)
+    {
+        $now = gmdate('Y-m-d H:i:s');
+        $res = $this->answers->save([
+            'text' => $answertext,
+            'userid' => $userId,
+            'questionid' => $questionId,
+            'votes' => 0,
+            'created' => $now,
+            'updated' => $now
+        ]);
+
+        return $res;
+    }
 }
 

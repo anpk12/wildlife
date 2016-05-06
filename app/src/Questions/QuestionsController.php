@@ -116,8 +116,6 @@ class QuestionsController implements \Anax\DI\IInjectionAware
             $a->userAcronym = $answerer->acronym;
         }
 
-        // TODO pass tags on to the view.. perhaps as part of '$q'
-
         $this->theme->setTitle($q->topic);
         $this->views->add('questions/view',
                           ['question' => $q,
@@ -222,6 +220,82 @@ class QuestionsController implements \Anax\DI\IInjectionAware
     public function onAskFail($form)
     {
         $form->AddOutput("<p><i>Question not registered</i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
+
+    public function answerAction($questionId)
+    {
+        $this->session();
+        $this->theme->setTitle("Answer a question");
+
+        $user = $this->di->dispatcher->forward([
+            'controller' => 'users',
+            'action'     => 'getLoggedInUser',
+            'params'     => []
+        ]);
+        if ( $user == null )
+        {
+            $loginurl = $this->url->create('users/login');
+            $this->response->redirect($loginurl);
+            return;
+        }
+
+        $form = $this->di->form->create([], [
+            'answertext' => [
+                'type'  => 'textarea',
+                'label' => 'Answer:',
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'questionid' => [
+                'type'  => 'hidden',
+                'value' => $questionId,
+                'required' => true,
+                'validation' => ['not_empty'],
+            ],
+            'submit' => [
+                'type' => 'submit',
+                'callback' => [$this, 'onAnswerSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onAnswerSuccess'], [$this, 'onAnswerFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Answer a question",
+            'content' => $form->getHTML()
+        ]);
+    }
+
+    public function onAnswerSubmit($form)
+    {
+        $user = $this->di->dispatcher->forward([
+            'controller' => 'users',
+            'action'     => 'getLoggedInUser',
+            'params'     => []
+        ]);
+        if ( $user == null )
+        {
+            return false;
+        }
+        $this->AnswersController->initialize();
+        $res = $this->AnswersController
+            ->addAnswer($form->Value('questionid'),
+                        $form->Value('answertext'),
+                        $user[0]);
+        return $res;
+    }
+
+    public function onAnswerSuccess($form)
+    {
+        $url = $this->url->create(
+            'questions/view/' . $form->Value('questionid'));
+        $this->response->redirect($url);
+    }
+
+    public function onAnswerFail($form)
+    {
+        $form->AddOutput("<p><i>Answer not registered</i></p>");
         $url = $this->di->request->getCurrentUrl();
         $this->response->redirect($url);
     }

@@ -28,5 +28,11 @@
 <?php endforeach; ?>
 </table>
 
+<p>
+    <a href='<?=$this->url->create('questions/answer/' . $question->id)?>'>
+        Answer this question
+    </a>
+</p>
+
 <p><a href='<?=$this->url->create('questions/list')?>'>All questions</a></p>
 
