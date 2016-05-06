@@ -111,6 +111,9 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         ]);
         $q->tags = $tags;
 
+        $this->Comment2Controller->initialize();
+        $q->comments = $this->Comment2Controller->getQuestionComments($id);
+
         foreach ( $answers as $a )
         {
             $answerer = $this->dispatcher->forward([

@@ -21,6 +21,13 @@ $di->set('CommentController', function() use ($di)
     return $controller;
 });
 
+$di->set('Comment2Controller', function() use ($di)
+{
+    $controller = new Anpk12\Questions\Comment2Controller();
+    $controller->setDI($di);
+    return $controller;
+});
+
 $di->set('QuestionsController', function() use ($di)
 {
     $controller = new Anpk12\Questions\QuestionsController();

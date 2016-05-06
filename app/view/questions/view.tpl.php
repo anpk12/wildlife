@@ -16,6 +16,14 @@
 <?php endforeach; ?>
 </td>
 </tr>
+<?php foreach ($question->comments as $qc) : ?>
+<tr>
+<td>
+    <p><?=$qc->content?></p>
+</td>
+</tr>
+<?php endforeach; ?>
+
 <?php foreach ($answers as $a) : ?>
 
 <tr>
