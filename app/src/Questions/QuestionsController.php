@@ -56,6 +56,11 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                            $now]);
     }
 
+    public function indexAction()
+    {
+        listAction();
+    }
+
     public function listAction()
     {
         $questions = $this->questions->findAll();

@@ -104,8 +104,11 @@ $app->router->add('', function() use ($app)
 $app->router->add('questions', function () use ($app)
 {
     $app->theme->setTitle("Questions");
-    $app->views->add('me/page',
-                       ['content' => "<h2>Questions</h2>", 'byline' => "my byline"]);
+    $app->dispatcher->forward([
+        'controller' => 'questions',
+        'action' => 'list',
+        'params' => []
+    ]);
 });
 
 $app->router->add('tags', function () use ($app)

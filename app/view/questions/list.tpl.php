@@ -17,5 +17,6 @@
 <?php endforeach; ?>
 </table>
 
+<p><a href='<?=$this->url->create('questions/ask')?>'>Ask a question</a></p>
 <p><a href='<?=$this->url->create('')?>'>Home</a></p>
 
