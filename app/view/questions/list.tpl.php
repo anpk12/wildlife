@@ -4,10 +4,14 @@
 <?php foreach ($questions as $q) : ?>
 
 <tr>
-<td>n answers</td>
-<td><?=$q->topic?></td>
-<td><?=$q->userAcronym?></td>
-<td><?=$q->created?></td>
+    <td><?=$q->numAnswers?> answers</td>
+<td>
+    <a href='<?=$this->url->create('questions/view/' . $q->id)?>'>
+        <?=$q->topic?>
+    </a>
+</td>
+    <td><?=$q->userAcronym?></td>
+    <td><?=$q->created?></td>
 </tr>
 
 <?php endforeach; ?>

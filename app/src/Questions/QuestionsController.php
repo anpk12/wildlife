@@ -68,6 +68,13 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                 'params'     => ['id' => $q->userid]
             ]);
             $q->userAcronym = $user->acronym;
+
+            $answers = $this->dispatcher->forward([
+                'controller' => 'answers',
+                'action' => 'getAnswersForQuestion',
+                'params' => ['questionId' => $q->id]
+            ]);
+            $q->numAnswers = count($answers);
         }
 
         $this->theme->setTitle("Questions");
