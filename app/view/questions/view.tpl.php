@@ -23,6 +23,11 @@
 </td>
 </tr>
 <?php endforeach; ?>
+<tr>
+<td>
+    <p><a href='<?=$this->url->create('comment2/comment-question/' . $question->id)?>'>Comment</a></p>
+</td>
+</tr>
 
 <?php foreach ($answers as $a) : ?>
 
@@ -39,6 +44,13 @@
 </td>
 </tr>
 <?php endforeach; ?>
+<tr>
+<td>
+<p><a href='<?=$this->url->create('comment2/comment-answer/'
+    . $question->id . '/' .$a->id)?>'>Comment
+</a></p>
+</td>
+</tr>
 
 <?php endforeach; ?>
 </table>

@@ -273,5 +273,139 @@ class Comment2Controller implements \Anax\DI\IInjectionAware
 
         return $comments;
     }
+
+    public function commentQuestionAction($questionId)
+    {
+        $this->session();
+        $this->theme->setTitle("Comment on a question");
+
+        $form = $this->di->form->create([], [
+            'content' => [
+                'type' => 'textarea',
+                'label' => 'Comment:',
+                'required' => true,
+                'validation' => ['not_empty']
+            ],
+            'questionid' => [
+                'type' => 'hidden',
+                'value' => $questionId
+            ],
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onCommentQuestionSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onCommentQuestionSuccess'],
+                     [$this, 'onCommentQuestionFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Add comment",
+            'content' => $form->getHTML()
+        ]);
+    }
+
+    public function onCommentQuestionSubmit($form)
+    {
+        $now = gmdate('Y-m-d H:i:s');
+
+        $this->UsersController->initialize();
+        $user = $this->UsersController->getLoggedInUser();
+        if ( $user == null )
+            return false;
+
+        $res = $this->comments->save([
+            'questionid' => $form->Value('questionid'),
+            'answerid' => null,
+            'userid' => $user[0],
+            'content' => $form->Value('content'),
+            'votes ' => 0,
+            'timestamp' => $now,
+        ]);
+        
+        return $res;
+    }
+
+    public function onCommentQuestionSuccess($form)
+    {
+        $url = $this->url->create(
+            'questions/view/' .  $form->Value('questionid'));
+        $this->response->redirect($url);
+    }
+
+    public function onCommentQuestionFail($form)
+    {
+        $form->AddOutput("<p><i>Failed to save comment</a></i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
+
+    public function commentAnswerAction($questionId, $answerId)
+    {
+        $this->session();
+        $this->theme->setTitle("Comment on an answer");
+
+        $form = $this->di->form->create([], [
+            'content' => [
+                'type' => 'textarea',
+                'label' => 'Comment:',
+                'required' => true,
+                'validation' => ['not_empty']
+            ],
+            'questionid' => [
+                'type' => 'hidden',
+                'value' => $questionId
+            ],
+            'answerid' => [
+                'type' => 'hidden',
+                'value' => $answerId
+            ],
+            'submit' => [
+                'type' => 'submit',
+                 'callback' => [$this, 'onCommentAnswerSubmit']
+            ],
+        ]);
+
+        $form->check([$this, 'onCommentAnswerSuccess'],
+                     [$this, 'onCommentAnswerFail']);
+        $this->di->views->add('default/page', [
+            'title' => "Add comment",
+            'content' => $form->getHTML()
+        ]);
+    }
+
+    public function onCommentAnswerSubmit($form)
+    {
+        $now = gmdate('Y-m-d H:i:s');
+
+        $this->UsersController->initialize();
+        $user = $this->UsersController->getLoggedInUser();
+        if ( $user == null )
+            return false;
+
+        $res = $this->comments->save([
+            'questionid' => null,
+            'answerid' => $form->Value('answerid'),
+            'userid' => $user[0],
+            'content' => $form->Value('content'),
+            'votes ' => 0,
+            'timestamp' => $now,
+        ]);
+        
+        return $res;
+    }
+
+    public function onCommentAnswerSuccess($form)
+    {
+        $url = $this->url->create(
+            'questions/view/' .  $form->Value('questionid'));
+        $this->response->redirect($url);
+    }
+
+    public function onCommentAnswerFail($form)
+    {
+        $form->AddOutput("<p><i>Failed to save comment</a></i></p>");
+        $url = $this->di->request->getCurrentUrl();
+        $this->response->redirect($url);
+    }
 }
 

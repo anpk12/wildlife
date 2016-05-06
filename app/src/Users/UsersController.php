@@ -462,7 +462,19 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->response->redirect($url);
     }
 
+    // TODO remove, see getLoggedInUser() below...
     public function getLoggedInUserAction()
+    {
+        $id = $this->session->get('login_id', null);
+        if ( $id == null )
+        {
+            return null;
+        }
+        $acronym = $this->session->get('login_acronym', null);
+        return [$id, $acronym];
+    }
+
+    public function getLoggedInUser()
     {
         $id = $this->session->get('login_id', null);
         if ( $id == null )
