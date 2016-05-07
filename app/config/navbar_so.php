@@ -48,6 +48,18 @@ return [
             'title' => 'Log in'
         ],
 
+        'signup' => [
+            'text' => 'Sign up',
+            'url' => $this->di->get('url')->create('users/signup'),
+            'title' => 'Sign up'
+        ],
+
+        'update' => [
+            'text' => 'Edit profile',
+            'url' => $this->di->get('url')->create('users/update'),
+            'title' => 'Sign up'
+        ],
+
         'regions' => [
             'text' => 'Regioner',
             'url' => $this->di->get('url')->create('regioner'),

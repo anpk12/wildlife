@@ -63,6 +63,17 @@ class AnswersController implements \Anax\DI\IInjectionAware
         return $answers;
     }
 
+    public function getAnswersBy($userId)
+    {
+        if ( !isset($this->answers) )
+            $this->initialize();
+
+        $answers = $this->answers->query()
+            ->where('userid is ' . $userId)
+            ->execute();
+        return $answers;
+    }
+
     public function addAnswer($questionId, $answertext, $userId)
     {
         $now = gmdate('Y-m-d H:i:s');

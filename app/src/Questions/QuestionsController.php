@@ -61,9 +61,19 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         listAction();
     }
 
-    public function listAction()
+    public function listAction($userId = null, $userAcronym = null)
     {
-        $questions = $this->questions->findAll();
+        $questions = [];
+        if ( $userId == null )
+        {
+            $this->theme->setTitle("Questions");
+            $questions = $this->questions->findAll();
+        } else
+        {
+            $questions = $this->questions->query()
+                ->where('userid is ' . $userId)
+                ->execute();
+        }
 
         foreach ( $questions as $q )
         {
@@ -82,10 +92,31 @@ class QuestionsController implements \Anax\DI\IInjectionAware
             $q->numAnswers = count($answers);
         }
 
-        $this->theme->setTitle("Questions");
         $this->views->add('questions/list',
                           ['questions' => $questions,
                            'title' => 'Questions']);
+    }
+
+    public function answeredByAction($userId, $userAcronym)
+    {
+        // Get all answers by $userId
+        $answers = $this->AnswersController->getAnswersBy($userId);
+
+        $questions = [];
+        foreach ( $answers as $a )
+        {
+            $q = $this->questions->find($a->questionid);
+            if ( !isset($questions[$q->id]) )
+            {
+                $questions[$q->id] = $q;
+                $questions[$q->id]->numAnswers = 1;
+                $questions[$q->id]->userAcronym = ''; //'acronym_goes_here';
+            } else
+                $questions[$q->id]->numAnswers += 1;
+        }
+        $this->views->add('questions/list',
+                          ['questions' => $questions,
+                           'title' => 'Answered by ' . $userAcronym]);
     }
 
     public function viewAction($id)

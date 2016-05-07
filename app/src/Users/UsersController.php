@@ -244,11 +244,28 @@ class UsersController implements \Anax\DI\IInjectionAware
     public function idAction($id = null)
     {
         $user = $this->users->find($id);
-        
+        if ( $user == false )
+        {
+            // TODO add error view?
+            throw Exception('No such user');
+        }
+
         $this->theme->setTitle("View user with id");
         $this->views->add('users/view',
                           ['user' => $user]);
-        $this->showAvailableActions();
+
+        $this->dispatcher->forward([
+            'controller' => 'questions',
+            'action' => 'list',
+            'params' => ['userId' => $user->id,
+                         'userAcronym' => $user->acronym]
+        ]);
+        $this->dispatcher->forward([
+            'controller' => 'questions',
+            'action' => 'answeredBy',
+            'params' => ['userId' => $user->id,
+                         'userAcronym' => $user->acronym]
+        ]);
     }
 
     public function addAcronymAction($acronym = null)
@@ -347,9 +364,33 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->session();
         $this->theme->setTitle("Update user");
 
-        $user = $this->users->find($id);
         $luser = $this->getLoggedInUserAction();
-        if ( $luser == null || $luser[0] != $user->id )
+        if ( $luser == null )
+        {
+            if ( $id == null )
+            {
+                $url = $this->url->create('users/list');
+                $this->response->redirect($url);
+                return;
+            } else
+            {
+                $url = $this->url->create('users/id/' . $id);
+                $this->response->redirect($url);
+                return;
+            }
+        }
+
+        if ( $id == null )
+            $id = $luser[0];
+        else if ( $luser[0] != $id )
+        {
+            $url = $this->url->create('users/id/' . $id);
+            $this->response->redirect($url);
+            return;
+        }
+
+        $user = $this->users->find($id);
+        if ( $luser[0] != $user->id )
         {
             $url = $this->url->create('users/id/' . $id);
             $this->response->redirect($url);
