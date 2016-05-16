@@ -493,6 +493,20 @@ trait TSQLQueryBuilderBasic
         return $this;
     }
 
+    /**
+     * Build the where part with conditions.
+     *
+     * @param string $condition for building the where part of the query.
+     *
+     * @return $this
+     */
+    public function orWhere($condition)
+    {
+        $this->where .= "\n\tOR (" . $condition . ")";
+
+        return $this;
+    }
+
 
 
     /**

@@ -18,7 +18,6 @@
         "mos/ctextfilter": "1.2.2",
         "mos/cform": "2.x-dev",
         "phpmvc/comment": "dev-master",
-        "mos/cdatabase": "dev-master",
         "anpk12/sysinfo": "1.0.0"
     },
     "autoload": {

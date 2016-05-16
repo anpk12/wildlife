@@ -58,6 +58,15 @@ class TagsController implements \Anax\DI\IInjectionAware
         $this->db->execute(['1', '2', $now]);
     }
 
+    public function indexAction()
+    {
+        $this->dispatcher->forward([
+            'controller' => 'tags',
+            'action' => 'list',
+            'params' => []
+        ]);
+    }
+
     public function listAction()
     {
         $tags = $this->tags->findAll();
@@ -92,6 +101,44 @@ class TagsController implements \Anax\DI\IInjectionAware
         echo 'tags is: ' . var_dump($tags);
 
         return $tags;
+    }
+
+    /**
+    Show a tag with questions tagged by it
+    Also reachable through questions/tagged/nam
+    */
+    public function showAction($tagName)
+    {
+        $this->theme->setTitle($tagName);
+
+        // Get the tag ids
+        $id = $this->getTagIds([$tagName])[$tagName];
+
+        $questionIds = $this->getQuestionsTaggedBy($id);
+        echo '### num question ids: ' . count($questionIds) . '<br />';
+        var_dump($questionIds);
+        $this->dispatcher->forward([
+            'controller' => 'questions',
+            'action' => 'showIds',
+            'params' => ['ids' => $questionIds]
+        ]);
+    }
+
+    /**
+    Return all questions tagged by tag id $id
+    */
+    private function getQuestionsTaggedBy($id)
+    {
+        $assocs = $this->assocs->query()
+            ->where('tagid is ' . $id)
+            ->execute();
+
+        $questionIds = [];
+        foreach ( $assocs as $assoc )
+        {
+            $questionIds[] = $assoc->questionid;
+        }
+        return $questionIds;
     }
 
     public function addAssocsAction($questionId, $tagNames)

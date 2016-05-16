@@ -97,6 +97,50 @@ class QuestionsController implements \Anax\DI\IInjectionAware
                            'title' => 'Questions']);
     }
 
+    /**
+    Show a summary of the question with ids given by $ids.
+    Used via dispatcher->forward from TagsController::showAction.
+    */
+    public function showIdsAction($ids)
+    {
+        $questions = [];
+        echo 'ids: <br />';
+        var_dump($ids);
+
+        $questions = $this->questions->findThese($ids);
+        /*
+        foreach ( $ids as $id )
+        {
+            $questions[$id] = $this->questions->find($id);
+            echo 'questions, looping: <br />';
+            var_dump($questions);
+        }*/
+        echo 'questions, after loop: <br />';
+        var_dump($questions);
+
+        // Exact copy of snippet from listAction, TODO private utility
+        foreach ( $questions as $q )
+        {
+            $user = $this->dispatcher->forward([
+                'controller' => 'users',
+                'action'     => 'getUser',
+                'params'     => ['id' => $q->userid]
+            ]);
+            $q->userAcronym = $user->acronym;
+
+            $answers = $this->dispatcher->forward([
+                'controller' => 'answers',
+                'action' => 'getAnswersForQuestion',
+                'params' => ['questionId' => $q->id]
+            ]);
+            $q->numAnswers = count($answers);
+        }
+
+        $this->views->add('questions/list',
+                          ['questions' => $questions,
+                           'title' => 'Questions']);
+    }
+
     public function answeredByAction($userId, $userAcronym)
     {
         // Get all answers by $userId
@@ -117,6 +161,18 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         $this->views->add('questions/list',
                           ['questions' => $questions,
                            'title' => 'Answered by ' . $userAcronym]);
+    }
+
+    /**
+    Show all questions tagged by $tagId.
+    */
+    public function taggedAction($tagName)
+    {
+        $questions = $this->dispatcher->forward([
+            'controller' => 'tags',
+            'action' => 'show',
+            'params' => ['tagName' => $tagName]
+        ]);
     }
 
     public function viewAction($id)

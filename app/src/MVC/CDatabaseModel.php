@@ -32,6 +32,23 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
         return $this->db->fetchInto($this);
     }
 
+    public function findThese($ids)
+    {
+        if ( count($ids) == 0 )
+            return [];
+
+        $dataSource = $this->getDataSource();
+        $qhej = $this->db->select()->from($dataSource)->where("id= ?");
+
+        for ( $i=1; $i<count($ids); ++$i )
+        {
+            $this->db->orWhere("id = ?");
+        }
+
+        $this->db->execute($ids);
+        return $this->db->fetchAll();
+    }
+
     // Properties associated with the db table of the model
     // TODO use "whitelisting" (even if it has to be
     // implemented multiple times in derived classes)
@@ -123,6 +140,12 @@ class CDatabaseModel implements \Anax\DI\IInjectionAware
     public function andWhere($condition)
     {
         $this->db->andWhere($condition);
+        return $this;
+    }
+
+    public function orWhere($condition)
+    {
+        $this->db->orWhere($condition);
         return $this;
     }
 
