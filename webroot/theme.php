@@ -121,8 +121,13 @@ $app->router->add('questions', function () use ($app)
 $app->router->add('tags', function () use ($app)
 {
     $app->theme->setTitle("Tags");
-    $app->views->add('me/page',
-                       ['content' => "<h2>Tags</h2>", 'byline' => "my byline"]);
+    //$app->views->add('me/page',
+    //                   ['content' => "<h2>Tags</h2>", 'byline' => "my byline"]);
+    $app->dispatcher->forward([
+        'controller' => 'tags',
+        'action' => 'list',
+        'params' => []
+    ]);
 });
 
 $app->router->add('users', function () use ($app)
