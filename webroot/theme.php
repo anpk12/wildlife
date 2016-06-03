@@ -141,7 +141,7 @@ $app->router->add('about', function () use ($app)
 {
     $app->theme->setTitle("About this website, and me");
     $app->views->add('me/page',
-                       ['content' => "<h2>About this website</h2>", 'byline' => "my byline"]);
+                       ['content' => "<h2>About this website</h2>This website is part of the examination in a course at Blekinge Institute of Technology. It is basically a crude and simple stackoverflow-like web application for questions and answers. My name is Anton and I am trying to finish this course.", 'byline' => "my byline"]);
 });
 
 $app->router->add('redovisning', function() use ($app) {
