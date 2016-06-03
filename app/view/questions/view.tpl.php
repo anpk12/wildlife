@@ -7,7 +7,7 @@
 <td><?=$question->created?></td>
 </tr>
 <tr>
-<td><?=$question->text?></td>
+<td><?=$this->textFilter->doFilter($question->text, 'shortcode, markdown')?></td>
 </tr>
 <tr>
 <td>
@@ -19,7 +19,7 @@
 <?php foreach ($question->comments as $qc) : ?>
 <tr>
 <td>
-    <p><?=$qc->content?> by <?=$qc->user->acronym?></p>
+    <p><?=$this->textFilter->doFilter($qc->content, 'shotcode, markdown')?> by <?=$qc->user->acronym?></p>
 </td>
 </tr>
 <?php endforeach; ?>
@@ -33,14 +33,14 @@
 
 <tr>
 <td><?=$a->votes?> votes</td>
-<td><?=$a->text?></td>
+<td><?=$this->textFilter->doFilter($a->text, 'shortcode, markdown')?></td>
 <td><?=$a->userAcronym?></td>
 <td><?=$a->created?></td>
 </tr>
 <?php foreach ($a->comments as $ac) : ?>
 <tr>
 <td>
-    <p><?=$ac->content?> by <?=$ac->user->acronym?></p>
+    <p><?=$this->textFilter->doFilter($ac->content, 'shortcode, markdown')?> by <?=$ac->user->acronym?></p>
 </td>
 </tr>
 <?php endforeach; ?>
