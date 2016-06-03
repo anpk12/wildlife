@@ -128,8 +128,13 @@ $app->router->add('tags', function () use ($app)
 $app->router->add('users', function () use ($app)
 {
     $app->theme->setTitle("Users");
-    $app->views->add('me/page',
-                       ['content' => "<h2>Users</h2>", 'byline' => "my byline"]);
+    //$app->views->add('me/page',
+    //                   ['content' => "<h2>Users</h2>", 'byline' => "my byline"]);
+    $app->dispatcher->forward([
+        'controller' => 'users',
+        'action' => 'list',
+        'params' => []
+    ]);
 });
 
 $app->router->add('about', function () use ($app)
