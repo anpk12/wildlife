@@ -1,3 +1,20 @@
+Wildlife
+========
+This is a web application for questions about wildlife,
+although it could be used for any topic.
+
+It is made as part of the examination in a web development course
+at Blekinge Institute of Technology. Part of the examination is
+that it is made available on github. I do not recommend anyone
+to deplay it in its current form, but here are some instructions
+on how to install it.
+
+INSTRUCTIONS
+
+It is implemented in mostly PHP and is heavily based on Anax-MVC
+by Mikael Roos (see below). This repo might be seen as a fork of
+Anax-MVC.
+
 Anax-MVC
 =========
 
