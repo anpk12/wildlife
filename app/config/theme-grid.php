@@ -28,8 +28,8 @@ return [
             'template' => 'me/header', 
             'data'     =>
             [
-                'siteTitle' => "Min me-sida byggd med Anax",
-                'siteTagline' => "En me-sida från Trøndelag",
+                'siteTitle' => "Wildlife",
+                'siteTagline' => "Your source for wildlife knowledge",
             ], 
             'sort'     => -1
         ],

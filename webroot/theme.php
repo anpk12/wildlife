@@ -93,7 +93,7 @@ $app->router->add('', function() use ($app)
         'controller' => 'users',
         'action'     => 'getLoggedInUser',
     ]);
-    $app->views->addString('flash ' . $user[0] . ' ' . $user[1], 'flash')
+    $app->views->addString('Logged in: ' . ' ' . $user[1], 'flash')
                ->addString('featured-1', 'featured-1')
                ->addString('featured-2: <i class="fa fa-camera-retro"></i> fa-camera-retro', 'featured-2')
                ->addString('featured-3', 'featured-3')
