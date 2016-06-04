@@ -97,7 +97,7 @@ $app->router->add('', function() use ($app)
                ->addString('featured-1', 'featured-1')
                ->addString('featured-2: <i class="fa fa-camera-retro"></i> fa-camera-retro', 'featured-2')
                ->addString('featured-3', 'featured-3')
-               ->addString('<h2>Recent questions</h2><h2>Popular tags</h2><h2>Most active users</h2>', 'main')
+               //->addString('<h2>Recent questions</h2><h2>Popular tags</h2><h2>Most active users</h2>', 'main')
                ->addString('sidebar', 'sidebar')
                ->addString('triptych-1', 'triptych-1')
                ->addString('triptych-2', 'triptych-2')
@@ -106,6 +106,11 @@ $app->router->add('', function() use ($app)
                ->addString('footercol-2', 'footercol-2')
                ->addString('footercol-3', 'footercol-3')
                ->addString('footercol-4', 'footercol-4');
+    $app->dispatcher->forward([
+        'controller' => 'questions',
+        'action' => 'list',
+        'params' => ['maxPosts' => 5]
+    ]);
 });
 
 $app->router->add('questions', function () use ($app)

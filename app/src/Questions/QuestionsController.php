@@ -61,13 +61,38 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         listAction();
     }
 
-    public function listAction($userId = null, $userAcronym = null)
+    /**
+    @brief
+    List questions in a compact view only including number
+    of answers, topic, acronym of poster and datetime.
+
+    This is typically forwarded from the frontcontroller or
+    UsersController, or invoked directly by a client visiting
+    'questions/list'.
+
+    @param maxPosts
+    Max number of questions to list (has no effect when userId != null).
+
+    @param userId
+    Limit questions listed to only those posted by userId.
+
+    @param userAcronym
+    Acronym of the user (this might actually be an XSS vulnerability :S).
+    */
+    public function listAction($maxPosts = null, $userId = null, $userAcronym = null)
     {
         $questions = [];
         if ( $userId == null )
         {
             $this->theme->setTitle("Questions");
-            $questions = $this->questions->findAll();
+            //$questions = $this->questions->findAll();
+            $query = $this->questions->query()
+                ->orderBy('created DESC');
+            if ( $maxPosts != null )
+            {
+                $query->limit($maxPosts);
+            }
+            $questions = $query->execute();
         } else
         {
             $questions = $this->questions->query()
@@ -94,7 +119,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
 
         $this->views->add('questions/list',
                           ['questions' => $questions,
-                           'title' => 'Questions']);
+                           'title' => 'Questions'],
+                           'main');
     }
 
     /**
