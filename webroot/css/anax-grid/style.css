@@ -598,6 +598,14 @@ h1 {
 #wrap-footercol:after {
   clear: both;
 }
+table.questions_view,
+tr,
+td,
+th {
+  border-width: 2px;
+  border-style: solid;
+  background-color: yellow;
+}
 #navbar ul {
   margin-top: 2em;
   color: #ff0000;
