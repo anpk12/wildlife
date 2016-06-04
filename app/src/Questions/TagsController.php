@@ -72,7 +72,40 @@ class TagsController implements \Anax\DI\IInjectionAware
         $tags = $this->tags->findAll();
 
         $this->theme->setTitle("Tags");
-        $this->views->add('tags/list', // TODO impl this view
+        $this->views->add('tags/list',
+                          ['tags' => $tags,
+                           'title' => 'Tags']);
+    }
+
+    private function cmpTagPopularity($a, $b)
+    {
+        $numqa = $a->popularity;
+        $numqb = $b->popularity;
+
+        if ( $numqa == $numqb )
+            return 0;
+        return ($numqa > $numqb) ? -1 : 1;
+    }
+
+    /**
+    @brief
+    Show popular tags. Forwarded from frontcontroller
+    to show popular tags on the front/home page.
+    */
+    public function popularAction()
+    {
+        $tags = $this->tags->findAll();
+
+        foreach ( $tags as $tag )
+        {
+            $tag->popularity =
+                count($this->getQuestionsTaggedBy($tag->id));
+        }
+        usort($tags, array("Anpk12\Questions\TagsController", "cmpTagPopularity"));
+        $tags = array_slice($tags, 0, 5);
+
+        $this->theme->setTitle("Tags");
+        $this->views->add('tags/list',
                           ['tags' => $tags,
                            'title' => 'Tags']);
     }

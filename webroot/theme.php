@@ -111,6 +111,11 @@ $app->router->add('', function() use ($app)
         'action' => 'list',
         'params' => ['maxPosts' => 5]
     ]);
+    $app->dispatcher->forward([
+        'controller' => 'tags',
+        'action' => 'popular',
+        'params' => []
+    ]);
 });
 
 $app->router->add('questions', function () use ($app)
