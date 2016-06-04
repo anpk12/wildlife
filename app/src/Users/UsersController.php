@@ -257,7 +257,8 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->dispatcher->forward([
             'controller' => 'questions',
             'action' => 'list',
-            'params' => ['userId' => $user->id,
+            'params' => ['maxPosts' => 4000000,
+                         'userId' => $user->id,
                          'userAcronym' => $user->acronym]
         ]);
         $this->dispatcher->forward([
@@ -537,6 +538,36 @@ class UsersController implements \Anax\DI\IInjectionAware
     {
         $user = $this->users->find($id);
         return $user;
+    }
+
+    private static function cmpNumPosts($a, $b)
+    {
+        if ( $a->numPosts == $b->numPosts )
+            return 0;
+        return ($a->numPosts > $b->numPosts) ? -1 : 1;
+    }
+
+    public function mostActiveAction()
+    {
+        $users = $this->users->findAll();
+
+        foreach ( $users as $user )
+        {
+            $answers = $this->AnswersController->getAnswersBy($user->id);
+            $questions = $this->QuestionsController
+                ->getQuestionsBy($user->id);
+
+            $user->numPosts = count($answers) + count($questions);
+        }
+        usort($users,
+            array("Anpk12\Users\UsersController", "cmpNumPosts"));
+        $users = array_slice($users, 0, 5);
+
+        $this->theme->setTitle("Most active users");
+        $this->views->add('users/list-all',
+                          ['users' => $users,
+                           'title' => "Most active users"]);
+        $this->showAvailableActions();
     }
 }
 

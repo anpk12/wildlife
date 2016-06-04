@@ -116,6 +116,11 @@ $app->router->add('', function() use ($app)
         'action' => 'popular',
         'params' => []
     ]);
+    $app->dispatcher->forward([
+        'controller' => 'users',
+        'action' => 'most-active',
+        'params' => []
+    ]);
 });
 
 $app->router->add('questions', function () use ($app)

@@ -423,5 +423,16 @@ class QuestionsController implements \Anax\DI\IInjectionAware
         $url = $this->di->request->getCurrentUrl();
         $this->response->redirect($url);
     }
+
+    public function getQuestionsBy($userId)
+    {
+        if ( !isset($this->questions) )
+            $this->initialize();
+
+        $questions = $this->questions->query()
+            ->where('userid is ' . $userId)
+            ->execute();
+        return $questions;
+    }
 }
 
