@@ -55,7 +55,7 @@
 <?php foreach ($a->comments as $ac) : ?>
 
 <li>
-    <p><?=$this->textFilter->doFilter($qc->content, 'shortcode, markdown')?> by <a href="<?=$this->url->create('users/id/'.$qc->user->id)?>"><?=$qc->user->acronym?></a></p>
+    <p><?=$this->textFilter->doFilter($ac->content, 'shortcode, markdown')?> by <a href="<?=$this->url->create('users/id/'.$ac->user->id)?>"><?=$ac->user->acronym?></a></p>
 </li>
 
 <?php endforeach; ?>
