@@ -19,7 +19,7 @@
 <?php foreach ($question->comments as $qc) : ?>
 <tr>
 <td>
-    <p><?=$this->textFilter->doFilter($qc->content, 'shotcode, markdown')?> by <?=$qc->user->acronym?></p>
+    <p><?=$this->textFilter->doFilter($qc->content, 'shortcode, markdown')?> by <?=$qc->user->acronym?></p>
 </td>
 </tr>
 <?php endforeach; ?>

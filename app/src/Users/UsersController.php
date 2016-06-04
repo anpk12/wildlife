@@ -71,7 +71,12 @@ class UsersController implements \Anax\DI\IInjectionAware
                            password_hash('doe', PASSWORD_DEFAULT),
                            $now,
                            $now]);
-        $this->showAvailableActions();
+        $this->db->execute(['abel',
+                           'abel@student.bth.se',
+                           'Abel Abelsson',
+                           password_hash('abel', PASSWORD_DEFAULT),
+                           $now,
+                           $now]);
     }
 
     public function signupAction()
@@ -154,7 +159,6 @@ class UsersController implements \Anax\DI\IInjectionAware
             'title' => "Add user",
             'content' => $form->getHTML()
         ]);
-        $this->showAvailableActions();
     }
 
     public function onSubmit($form)
@@ -196,7 +200,6 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "View all users"]);
-        $this->showAvailableActions();
     }
 
     public function activeAction()
@@ -210,7 +213,6 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Users that are active"]);
-        $this->showAvailableActions();
     }
 
     // Show users that are inactive but not deleted
@@ -226,7 +228,6 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Users that are inactive"]);
-        $this->showAvailableActions();
     }
 
     public function deletedAction()
@@ -238,7 +239,6 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $all,
                            'title' => "Deleted users"]);
-        $this->showAvailableActions();
     }
 
     public function idAction($id = null)
@@ -432,7 +432,6 @@ class UsersController implements \Anax\DI\IInjectionAware
             'title' => "Update user",
             'content' => $form->getHTML() . '<img class="avatar" src="http://www.gravatar.com/avatar/' . md5(strtolower(trim($user->email))) . '" />'
         ]);
-        $this->showAvailableActions();
     }
 
     public function loginAction()
@@ -465,7 +464,6 @@ class UsersController implements \Anax\DI\IInjectionAware
             'title' => "Log in",
             'content' => $form->getHTML()
         ]);
-        $this->showAvailableActions();
     }
 
     public function onSubmitLogin($form)
@@ -567,7 +565,6 @@ class UsersController implements \Anax\DI\IInjectionAware
         $this->views->add('users/list-all',
                           ['users' => $users,
                            'title' => "Most active users"]);
-        $this->showAvailableActions();
     }
 }
 

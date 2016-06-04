@@ -10,8 +10,28 @@ to deplay it in its current form, but here are some instructions
 on how to install it.
 
 INSTRUCTIONS
+Upload the entire Anax-MVC folder to your server's webroot folder.
+Edit Anax-MVC/webroot/.htaccess as necessary.
+Create a sqlite3 database somewhere and edit
+Anax-MVC/app/config/database_sqlite.php to point to the
+new database. Make sure the httpd process has read and write
+permissions to the database file (use chown and/or chmod).
 
-It is implemented in mostly PHP and is heavily based on Anax-MVC
+Also make sure the following file can be read and written by
+the httpd process: Anax-MVC/webroot/css/anax-grid/style.less.cache .
+
+Create a symbolic link in Anax-MVC/webroot called index.php that links to
+theme.php .
+
+Now we need to setup the tables. This can be done by visiting
+these setup URLs:
+
+- webroot/users/setup
+- webroot/tags/setup
+- webroot/questions/setup
+- webroot/answers/setup
+
+Wildlife is implemented in mostly PHP and is heavily based on Anax-MVC
 by Mikael Roos (see below). This repo might be seen as a fork of
 Anax-MVC.
 

@@ -5,8 +5,8 @@ return [
     'dsn'     => "sqlite:/var/www/html/phpmvc/db/phpmvc.sqlite.db",
 
     // Display details on what happens
-    'verbose' => true,
+    'verbose' => false,
 
     // Throw a more verbose exception when failing to connect
-    'debug_connect' => 'true',
+    'debug_connect' => 'false',
   ];
