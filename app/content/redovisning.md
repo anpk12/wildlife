@@ -413,3 +413,151 @@ vara något hinder för dessa webbtjänster.
 
 Jag har inte gjort extrauppgiften.
 
+Kmom07/10: Project och examination
+--------------------------------------------------------------------------------
+
+Mitt projekt i drift på studentservern:
+http://www.student.bth.se/~anpk12/phpmvc/kmom07/Anax-MVC/webroot/
+
+Inloggning och användare (krav 1, 2, 3)
+
+För att hantera användare har jag återanvänt klassen UsersController
+från tidigare kursmoment och utökat den med hantering av inloggning.
+Det betyder att andra kontroller använder den som en tjänst för att
+se vem som är inloggad (om någon).
+
+I början av projektet var jag
+osäker på hur jag skulle hantera den typen av interaktion
+mellan olika kontroller och modeller, vilket har lett till att jag
+varit inkonsekvent med hur jag har angripit liknande problem. Jag
+har testat mig fram. Men UsersController har en getLoggedInUserAction
+som enbart returnerar id och akronym för den användare som är inloggad,
+eller null om ingen är det. Jag lade senare till en identisk getLoggedInUser()
+som inte är en action (och därmed ej direkt nåbar via en URL).
+Nuvarande inloggade användare lagras i sessionen.
+
+För att registrera en användare finns UsersController::signupAction
+som presenterar ett formulär med CForm. Alla användare lagras i en
+tabell i databasen (jag har använt sqlite3). Det finns även en
+loginAction som skapar ett formulär för inloggning.
+
+Varje användare har en profil som kan nås genom UsersController::idAction
+och uppdateras genom UsersController::updateAction. Kod för att presentera
+gravatars har jag lagt in i relevanta vyer.
+
+Frågor, svar, kommentarer och taggar (krav 1, 2, 3)
+
+Vid sidan om UsersController finns även QuestionsController, TagsController,
+AnswersController och Comments2Controller (2 för att särskilja från min gamla
+kontroller för kommentarer från tidigare kursmoment).
+De interagerar med databastabellerna question, answer, tag,
+questiontagassociation och comment.
+
+Varje fråga har ett id. Varje svar kopplas till ett fråge-id. Därför kan
+systemet hämta alla svar för en viss fråga. Kommentarer har i databastabellen
+en kolumn för fråge-id och en för svar-id och kan därmed tekniskt sett
+kopplas till både en fråga och ett svar samtidigt. Men jag ser till att
+kommentarer kopplas till antingen en fråga eller till ett svar, aldrig
+både och.
+
+Hur har jag implementerat taggar? Det finns två tabeller som rör taggar,
+_tag_ och _questiontagassociation_. _tag_ lagrar själva taggarna med id,
+namn och beskrivning. När man postar en fråga kan man skriva in taggarna
+i ett fält i formuläret. De taggar som inte finns skapas. I tillägg skapas
+associationer mellan frågan och taggarna i tabellen _questiontagassociation_.
+Associationerna är egentligen bara ett id (för själva associationen),
+ett fråge-id och ett tag-id. På så vis kan samma tag kopplas till många
+frågor utan att lagra namn och beskrivning med redundans. Samtidigt
+kan en fråga kopplas till många taggar. Jag har inte lagt till något
+användargränssnitt för att redigera tagbeskrivningar i webbläsaren, men om man
+redigerar beskrivningarna i databasen så visas de på webbsidan.
+
+Med modeller och kontroller ovanpå de ovan beskrivna databastabellerna
+är det inte så svårt att implementera kraven. En sida för frågor?
+questions/list, hämta alla frågor. För varje fråga, hämta användaren
+som postat samt alla svar. Räkna svaren, skicka allting till en vy/mall
+för presentation.
+
+En sida för taggar? tags/list. Hämta alla taggar. Skicka taggarna med
+beskrivningar till en vy som listar dem och länkar till
+questions/tagged/<tagname>.
+
+En sida för användare? users/list. Hämta alla användare och presentera dem
+i en vy som även länkar till users/id/<userid> så att man kan klicka sig
+vidare till användarprofilerna.
+
+About-sidan har jag implementerat som en statisk sida direkt i frontkontrollern.
+
+För att visa vilka frågor en användare ställt och vilka den besvarat
+(på profilsidan, users/id/<userid>) vidarebefordrar jag requesten
+via dispatcher-tjänsten till questions/list samt questions/answered-by
+med parametrar som begränsar utskrifterna till frågor kopplade till
+den aktuella användaren. Det känns som ett av de mer lyckade besluten
+min design.
+
+
+För att stödja användargenererat innehåll i Markdown kör jag frågor,
+svar och kommentarer igenom Markdown-filtret i relevanta vyer/mallar.
+
+Förstasidan
+
+Förstasidan är implementerad med hjälp av följande kontroller och actions:
+- questions/list/5 (maxPosts-parametern satt till 5)
+- tags/popular
+- users/most-active
+
+De anropas i tur och ordning via dispatcher->forward från frontkontrollern.
+
+
+Allmänt om hur projektet gick att genomföra
+
+För mig var det svåraste att bestämma hur de olika kontrollerna och
+modellerna skulle interagera med varandra. Jag är inte nöjd med alla
+mina (olika) lösningar på det, men har kanske fått en del insikter om
+hur det kan hanteras i framtiden. Jag tror det hade varit värdefullt
+att få in lite övning och vägledning runt den här problemställningen
+i ett tidigare kursmoment, om möjligt. Dock är kursen ganska tidskrävande
+som det är och jag har svårt att komma med förslag på vad man eventuellt
+hade kunnat ta bort.
+
+Jag tyckte egentligen inte projektet var alltför svårt, även om jag
+inte känner mig nöjd med alla mina lösningar. Jag har i huvudsak jobbat
+med kursen på helgerna då jag utför avlönat arbete på (mer än) heltid.
+Efter två intensiva helger i början av Maj kände jag att jag löst
+alla moment som jag uppfattade som svåra och att det mest var enklare
+saker som kvarstod (lägga till relevanta länkar mellan de olika routerna,
+snygga till presentationen, etc). Sen gick det ett gäng veckor utan att
+jag hade möjligthet att jobba med projektet i någon större utsträckning,
+så det blev ändå lite stress på slutet. Därför har jag valt att inte
+göra de optionella kraven. Om jag förstått allting rätt är det här den
+sista kursen jag behöver för att få ut både kandidat- och masterexamen
+i datavetenskap, så jag känner att jag kan unna mig att ta ett lägre
+betyg.
+
+Jag tycker projektet var på en rimlig nivå. Jag var också mer motiverad
+att sätta igång med det eftersom formatet passade mig bättre än de
+tidigare kursmomenten; en lista på krav som man mer eller mindre fick
+lösa hur man ville kontra väldigt långa och detaljerade guider.
+
+
+Tankar om kursen, materialet och handledningen
+
+Som jar var inne på i det förra stycket så är jag lite tveksam till
+upplägget med långa och detaljerade guider i kursmomenten. Det är
+väldigt trevligt för att man nästan kan vara säker på att man kommer
+att klara det. Dessutom är min uppfattning att det är enkelt att få
+hjälp både från medstudenter och lärare. Men problemet som jag upplever
+är att det inte känns kreativt att bara följa en massa steg-för-steg
+guider. Jag blir helt enkelt omotiverad, vilket leder till att allting
+tar mer tid. Samtidigt förstår jag att det inte är lätt att designa
+en distanskurs, och kursen i fråga handlar ju väldigt mycket om
+designmönster (i mina ögon), då blir det konstigt om man löser uppgifterna
+utan att applicera mönstrena i fråga.
+
+Jag är nöjd med kursen. Jag kan rekommendera kursen. Men jag har inte
+läst något paket, och det skulle jag kanske rekommendera i första hand
+även om jag tycker att jag klarade mig ganska bra. Jag ger kursen
+8 av 10. Det som drar ner betyget för mig är upplägget med
+steg-för-steg guiderna.
+Men förmodligen är det många som är väldigt nöjda med just det upplägget.
+
