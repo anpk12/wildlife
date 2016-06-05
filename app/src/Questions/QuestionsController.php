@@ -130,19 +130,8 @@ class QuestionsController implements \Anax\DI\IInjectionAware
     public function showIdsAction($ids)
     {
         $questions = [];
-        echo 'ids: <br />';
-        var_dump($ids);
 
         $questions = $this->questions->findThese($ids);
-        /*
-        foreach ( $ids as $id )
-        {
-            $questions[$id] = $this->questions->find($id);
-            echo 'questions, looping: <br />';
-            var_dump($questions);
-        }*/
-        echo 'questions, after loop: <br />';
-        var_dump($questions);
 
         // Exact copy of snippet from listAction, TODO private utility
         foreach ( $questions as $q )

@@ -123,7 +123,6 @@ class TagsController implements \Anax\DI\IInjectionAware
             ->where('questionid is ' . $questionId)
             ->execute();
 
-        echo 'count assocs: ' . count($assocs);
         $tags = [];
         foreach ( $assocs as $assoc )
         {
@@ -131,7 +130,6 @@ class TagsController implements \Anax\DI\IInjectionAware
                 ->where('id is ' . $assoc->tagid)
                 ->execute()[0];
         }
-        echo 'tags is: ' . var_dump($tags);
 
         return $tags;
     }
@@ -148,8 +146,6 @@ class TagsController implements \Anax\DI\IInjectionAware
         $id = $this->getTagIds([$tagName])[$tagName];
 
         $questionIds = $this->getQuestionsTaggedBy($id);
-        echo '### num question ids: ' . count($questionIds) . '<br />';
-        var_dump($questionIds);
         $this->dispatcher->forward([
             'controller' => 'questions',
             'action' => 'showIds',
