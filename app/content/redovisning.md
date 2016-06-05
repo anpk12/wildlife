@@ -539,6 +539,12 @@ att sätta igång med det eftersom formatet passade mig bättre än de
 tidigare kursmomenten; en lista på krav som man mer eller mindre fick
 lösa hur man ville kontra väldigt långa och detaljerade guider.
 
+En sak som var svår för mig var att jag inte har stenkoll på html,
+css eller javascript. Html och css har jag hållt på med vid några
+tillfällen tidigare, javascript ytterst lite. Själva designbiten
+intresserar mig heller inte så mycket, så därför hamnar det väl på
+min lista över svåra moment både i projektet och i tidigare kursmoment.
+
 
 Tankar om kursen, materialet och handledningen
 
